@@ -8,9 +8,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: #0c0a09; }
-        ::-webkit-scrollbar-thumb { background: #292524; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: #292524; border-radius: 2px; }
         
         /* Salonplafond Yellow Cube Logo Animations */
         @keyframes cubeGlow {
@@ -32,7 +32,7 @@
             user-select: none;
         }
         .table-node:hover {
-            transform: scale(1.05);
+            transform: scale(1.08);
             z-index: 30;
         }
         .dragging {
@@ -42,80 +42,80 @@
         }
         .drag-over {
             outline: 2px dashed #f59e0b !important;
-            outline-offset: 4px;
+            outline-offset: 3px;
         }
     </style>
 </head>
 <body class="bg-stone-950 text-stone-100 h-screen flex flex-col font-sans overflow-hidden select-none">
 
     <!-- HEADER / TOP BAR -->
-    <header class="bg-stone-900/90 border-b border-stone-800/80 h-16 px-6 flex items-center justify-between shrink-0 shadow-xl backdrop-blur-md relative z-20">
+    <header class="bg-stone-900/90 border-b border-stone-800/80 h-14 px-5 flex items-center justify-between shrink-0 shadow-xl backdrop-blur-md relative z-20">
         <!-- Left: Title & TK Desk Badge -->
         <div class="flex items-center space-x-3">
-            <h1 class="text-xl font-bold tracking-tight text-stone-100 flex items-center gap-3">
+            <h1 class="text-lg font-bold tracking-tight text-stone-100 flex items-center gap-2.5">
                 Reservierungen
-                <span class="bg-amber-950/40 border border-amber-600/50 text-amber-500 font-bold px-3 py-1 rounded-lg text-xs tracking-wider shadow-inner flex items-center gap-1.5">
+                <span class="bg-amber-950/40 border border-amber-600/50 text-amber-500 font-bold px-2.5 py-0.5 rounded-lg text-[11px] tracking-wider shadow-inner flex items-center gap-1">
                     <span class="text-amber-400">TK</span> <span class="text-amber-500">Desk</span>
                 </span>
             </h1>
         </div>
 
         <!-- Center: Date & Shift Navigation -->
-        <div class="flex items-center space-x-3 text-xs relative">
-            <div class="flex items-center space-x-3 bg-stone-950 border border-stone-800 px-3.5 py-1.5 rounded-lg text-stone-200 shadow-inner relative">
-                <button onclick="changeDate(-1)" class="text-stone-400 hover:text-amber-400 transition-colors"><i class="fa-solid fa-chevron-left"></i></button>
-                <span onclick="toggleCalendar()" class="font-semibold text-stone-200 flex items-center gap-2 cursor-pointer hover:text-amber-400 transition-colors">
+        <div class="flex items-center space-x-2.5 text-xs relative">
+            <div class="flex items-center space-x-2.5 bg-stone-950 border border-stone-800 px-3 py-1 rounded-lg text-stone-200 shadow-inner relative">
+                <button onclick="changeDate(-1)" class="text-stone-400 hover:text-amber-400 transition-colors"><i class="fa-solid fa-chevron-left text-[10px]"></i></button>
+                <span onclick="toggleCalendar()" class="font-semibold text-stone-200 flex items-center gap-1.5 cursor-pointer hover:text-amber-400 transition-colors">
                     <i class="fa-regular fa-calendar text-amber-500"></i> <span id="currentDateDisplay">Dienstag, 20. Okt. 2026</span>
                 </span>
-                <button onclick="changeDate(1)" class="text-stone-400 hover:text-amber-400 transition-colors"><i class="fa-solid fa-chevron-right"></i></button>
+                <button onclick="changeDate(1)" class="text-stone-400 hover:text-amber-400 transition-colors"><i class="fa-solid fa-chevron-right text-[10px]"></i></button>
             </div>
 
             <!-- Shift Dropdown -->
             <div class="relative">
-                <button onclick="toggleShiftDropdown()" class="bg-stone-950 border border-stone-800 px-3.5 py-1.5 rounded-lg text-stone-300 flex items-center gap-2 hover:border-stone-700 transition-colors">
+                <button onclick="toggleShiftDropdown()" class="bg-stone-950 border border-stone-800 px-3 py-1 rounded-lg text-stone-300 flex items-center gap-2 hover:border-stone-700 transition-colors">
                     <span id="currentShiftText">Ganzer Tag</span>
-                    <i class="fa-solid fa-chevron-down text-[10px] text-stone-500"></i>
+                    <i class="fa-solid fa-chevron-down text-[9px] text-stone-500"></i>
                 </button>
                 
-                <div id="shiftDropdown" class="hidden absolute right-0 mt-2 w-40 bg-stone-900 border border-stone-800 rounded-xl shadow-2xl py-1 z-50 text-xs">
-                    <button onclick="selectShift('Ganzer Tag')" class="w-full text-left px-3 py-2 hover:bg-stone-800 text-amber-400 font-semibold flex items-center gap-2">
+                <div id="shiftDropdown" class="hidden absolute right-0 mt-2 w-36 bg-stone-900 border border-stone-800 rounded-xl shadow-2xl py-1 z-50 text-xs">
+                    <button onclick="selectShift('Ganzer Tag')" class="w-full text-left px-3 py-1.5 hover:bg-stone-800 text-amber-400 font-semibold flex items-center gap-2">
                         <i class="fa-solid fa-sun text-amber-500"></i> Ganzer Tag
                     </button>
-                    <button onclick="selectShift('Mittagschicht')" class="w-full text-left px-3 py-2 hover:bg-stone-800 text-stone-300 flex items-center gap-2">
+                    <button onclick="selectShift('Mittagschicht')" class="w-full text-left px-3 py-1.5 hover:bg-stone-800 text-stone-300 flex items-center gap-2">
                         <i class="fa-solid fa-utensils text-stone-400"></i> Mittagschicht
                     </button>
-                    <button onclick="selectShift('Abendschicht')" class="w-full text-left px-3 py-2 hover:bg-stone-800 text-stone-300 flex items-center gap-2">
+                    <button onclick="selectShift('Abendschicht')" class="w-full text-left px-3 py-1.5 hover:bg-stone-800 text-stone-300 flex items-center gap-2">
                         <i class="fa-solid fa-moon text-indigo-400"></i> Abendschicht
                     </button>
                 </div>
             </div>
 
             <!-- POPUP CALENDAR MODAL -->
-            <div id="calendarModal" class="hidden absolute top-12 left-0 bg-stone-900 border border-stone-800 rounded-2xl shadow-2xl p-4 w-72 z-50">
-                <div class="flex justify-between items-center mb-3">
-                    <button onclick="prevMonth()" class="text-stone-400 hover:text-white p-1"><i class="fa-solid fa-chevron-left"></i></button>
-                    <span id="calendarMonthYear" class="font-bold text-stone-200 text-sm">Oktober 2026</span>
-                    <button onclick="nextMonth()" class="text-stone-400 hover:text-white p-1"><i class="fa-solid fa-chevron-right"></i></button>
+            <div id="calendarModal" class="hidden absolute top-10 left-0 bg-stone-900 border border-stone-800 rounded-xl shadow-2xl p-3 w-64 z-50">
+                <div class="flex justify-between items-center mb-2">
+                    <button onclick="prevMonth()" class="text-stone-400 hover:text-white p-1"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                    <span id="calendarMonthYear" class="font-bold text-stone-200 text-xs">Oktober 2026</span>
+                    <button onclick="nextMonth()" class="text-stone-400 hover:text-white p-1"><i class="fa-solid fa-chevron-right text-xs"></i></button>
                 </div>
-                <div class="grid grid-cols-7 gap-1 text-center text-[11px] font-semibold text-stone-500 mb-1">
+                <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-semibold text-stone-500 mb-1">
                     <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
                 </div>
-                <div id="calendarDaysGrid" class="grid grid-cols-7 gap-1 text-center text-xs font-medium"></div>
+                <div id="calendarDaysGrid" class="grid grid-cols-7 gap-1 text-center text-[11px] font-medium"></div>
             </div>
         </div>
 
         <!-- Right: Animated Original Salonplafond Yellow Cube Logo & Action Button -->
-        <div class="flex items-center space-x-4">
-            <div class="relative w-10 h-10 bg-[#fabb15] rounded-xl flex items-center justify-center font-black text-stone-950 shadow-lg salon-cube-glow cursor-pointer overflow-hidden transition-all hover:scale-105">
+        <div class="flex items-center space-x-3">
+            <div class="relative w-9 h-9 bg-[#fabb15] rounded-lg flex items-center justify-center font-black text-stone-950 shadow-lg salon-cube-glow cursor-pointer overflow-hidden transition-all hover:scale-105">
                 <div id="cubeContent" class="flex flex-col items-center justify-center text-stone-950 font-bold leading-none icon-swap">
-                    <span class="text-[8px] tracking-tighter uppercase font-mono">—</span>
-                    <span class="text-base font-extrabold tracking-tighter leading-none my-[-2px]">Ö</span>
-                    <span class="text-[7px] leading-none">•</span>
+                    <span class="text-[7px] tracking-tighter uppercase font-mono">—</span>
+                    <span class="text-sm font-extrabold tracking-tighter leading-none my-[-2px]">Ö</span>
+                    <span class="text-[6px] leading-none">•</span>
                 </div>
             </div>
 
-            <button onclick="openReservationModal()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 shadow-lg shadow-amber-900/20 transition-all">
-                <i class="fa-solid fa-plus"></i> Neue Reservierung
+            <button onclick="openReservationModal()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 shadow-lg shadow-amber-900/20 transition-all">
+                <i class="fa-solid fa-plus text-[10px]"></i> Neue Reservierung
             </button>
         </div>
     </header>
@@ -124,41 +124,41 @@
     <div class="flex-1 flex overflow-hidden">
 
         <!-- LEFT SIDEBAR: RESERVATIONS LIST -->
-        <aside class="w-80 bg-stone-900/60 border-r border-stone-800/80 flex flex-col shrink-0 backdrop-blur-sm">
-            <div class="flex border-b border-stone-800/80 text-xs font-medium text-stone-400">
-                <button class="flex-1 py-3 text-amber-400 border-b-2 border-amber-500 font-semibold text-center bg-amber-500/5">Aktuell (<span id="resCount">0</span>)</button>
-                <button class="flex-1 py-3 hover:text-stone-200 text-center">Fertig</button>
-                <button class="flex-1 py-3 hover:text-stone-200 text-center">Abgesagt</button>
+        <aside class="w-72 bg-stone-900/60 border-r border-stone-800/80 flex flex-col shrink-0 backdrop-blur-sm">
+            <div class="flex border-b border-stone-800/80 text-[11px] font-medium text-stone-400">
+                <button class="flex-1 py-2.5 text-amber-400 border-b-2 border-amber-500 font-semibold text-center bg-amber-500/5">Aktuell (<span id="resCount">0</span>)</button>
+                <button class="flex-1 py-2.5 hover:text-stone-200 text-center">Fertig</button>
+                <button class="flex-1 py-2.5 hover:text-stone-200 text-center">Abgesagt</button>
             </div>
 
-            <div class="px-4 py-2.5 border-b border-stone-800/60 flex items-center justify-between text-[11px] text-stone-400 bg-stone-950/40">
-                <span class="flex items-center gap-1.5"><i class="fa-solid fa-user-group text-amber-500/80"></i> <strong id="totalPax" class="text-stone-200">0</strong> Gäste</span>
-                <span class="flex items-center gap-1.5"><i class="fa-solid fa-chair text-amber-500/80"></i> <strong id="totalTables" class="text-stone-200">0/32</strong> Tische</span>
+            <div class="px-3 py-2 border-b border-stone-800/60 flex items-center justify-between text-[10px] text-stone-400 bg-stone-950/40">
+                <span class="flex items-center gap-1"><i class="fa-solid fa-user-group text-amber-500/80"></i> <strong id="totalPax" class="text-stone-200">0</strong> Gäste</span>
+                <span class="flex items-center gap-1"><i class="fa-solid fa-chair text-amber-500/80"></i> <strong id="totalTables" class="text-stone-200">0/32</strong> Tische</span>
             </div>
 
-            <div id="reservationList" class="flex-1 overflow-y-auto p-3 space-y-2.5"></div>
+            <div id="reservationList" class="flex-1 overflow-y-auto p-2.5 space-y-2"></div>
         </aside>
 
-        <!-- RIGHT: FIXED FLOOR PLAN CANVAS -->
-        <main class="flex-1 bg-stone-950 relative p-4 overflow-auto flex flex-col justify-between">
+        <!-- RIGHT: FIXED FLOOR PLAN CANVAS (NO SCROLL FIT FOR TABLET & PC) -->
+        <main class="flex-1 bg-stone-950 relative p-3 overflow-hidden flex flex-col justify-between">
             
-            <div class="flex justify-between items-center mb-3 z-10 shrink-0">
-                <div class="flex items-center space-x-3">
-                    <span class="text-xs text-stone-400 uppercase tracking-wider font-semibold">Bereich:</span>
-                    <button class="bg-amber-500/10 border border-amber-500/30 text-amber-400 px-3 py-1 rounded-lg text-xs font-semibold">Restaurant</button>
-                    <button class="bg-stone-900 border border-stone-800 text-stone-400 hover:text-stone-200 px-3 py-1 rounded-lg text-xs transition-colors">Garten</button>
-                    <button class="bg-stone-900 border border-stone-800 text-stone-400 hover:text-stone-200 px-3 py-1 rounded-lg text-xs transition-colors">Bar</button>
+            <div class="flex justify-between items-center mb-2 z-10 shrink-0">
+                <div class="flex items-center space-x-2">
+                    <span class="text-[11px] text-stone-400 uppercase tracking-wider font-semibold">Bereich:</span>
+                    <button class="bg-amber-500/10 border border-amber-500/30 text-amber-400 px-2.5 py-0.5 rounded-md text-[11px] font-semibold">Restaurant</button>
+                    <button class="bg-stone-900 border border-stone-800 text-stone-400 hover:text-stone-200 px-2.5 py-0.5 rounded-md text-[11px] transition-colors">Garten</button>
+                    <button class="bg-stone-900 border border-stone-800 text-stone-400 hover:text-stone-200 px-2.5 py-0.5 rounded-md text-[11px] transition-colors">Bar</button>
                 </div>
-                <div class="text-xs text-stone-500 bg-stone-900/80 px-3 py-1 rounded-lg border border-stone-800">
+                <div class="text-[10px] text-stone-500 bg-stone-900/80 px-2.5 py-0.5 rounded-md border border-stone-800">
                     <i class="fa-solid fa-hand-pointer text-amber-500 mr-1"></i> Reservierung zum Tauschen auf anderen Tisch ziehen
                 </div>
             </div>
 
-            <!-- CANVAS FOR ALL FIXED TABLES FROM GASTRONAUT -->
-            <div id="floorPlanCanvas" class="relative w-full h-[720px] border border-stone-800/60 rounded-2xl bg-stone-900/30 backdrop-blur-sm overflow-auto shadow-inner p-4"></div>
+            <!-- CANVAS AUTO-SCALED TO FIT ENTIRE SCREEN -->
+            <div id="floorPlanCanvas" class="relative w-full flex-1 border border-stone-800/60 rounded-xl bg-stone-900/30 backdrop-blur-sm overflow-hidden shadow-inner p-2"></div>
 
             <!-- FOOTER INFO -->
-            <div class="flex items-center justify-between mt-3 text-xs text-stone-500 shrink-0">
+            <div class="flex items-center justify-between mt-2 text-[10px] text-stone-500 shrink-0">
                 <span class="font-mono">TK Desk • T0mc1k Edition v1.0.0.0-beta</span>
                 <span class="text-stone-400 font-semibold">Salonplafond Vienna</span>
             </div>
@@ -168,45 +168,45 @@
 
     <!-- MODAL: NEUE RESERVIERUNG -->
     <div id="reservationModal" class="hidden fixed inset-0 bg-stone-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-stone-900 border border-stone-800 rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
-            <div class="flex justify-between items-center mb-5 border-b border-stone-800 pb-3">
-                <h3 class="text-lg font-bold text-stone-100 flex items-center gap-2">
+        <div class="bg-stone-900 border border-stone-800 rounded-2xl w-full max-w-sm p-5 shadow-2xl relative">
+            <div class="flex justify-between items-center mb-4 border-b border-stone-800 pb-2.5">
+                <h3 class="text-base font-bold text-stone-100 flex items-center gap-2">
                     <i class="fa-solid fa-calendar-plus text-amber-500"></i> Neue Reservierung
                 </h3>
-                <button onclick="closeReservationModal()" class="text-stone-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+                <button onclick="closeReservationModal()" class="text-stone-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-base"></i></button>
             </div>
 
-            <form id="newReservationForm" onsubmit="saveReservation(event)" class="space-y-4">
+            <form id="newReservationForm" onsubmit="saveReservation(event)" class="space-y-3">
                 <div>
-                    <label class="block text-xs font-semibold text-stone-400 mb-1 uppercase">Gast Name</label>
-                    <input type="text" id="resName" required placeholder="z.B. Thomas Kardos" class="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500">
+                    <label class="block text-[10px] font-semibold text-stone-400 mb-1 uppercase">Gast Name</label>
+                    <input type="text" id="resName" required placeholder="z.B. Thomas Kardos" class="w-full bg-stone-950 border border-stone-800 rounded-lg px-2.5 py-1.5 text-xs text-stone-100 focus:outline-none focus:border-amber-500">
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-2 gap-2.5">
                     <div>
-                        <label class="block text-xs font-semibold text-stone-400 mb-1 uppercase">Personen (Pax)</label>
-                        <input type="number" id="resPax" min="1" max="20" value="2" required class="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500">
+                        <label class="block text-[10px] font-semibold text-stone-400 mb-1 uppercase">Personen (Pax)</label>
+                        <input type="number" id="resPax" min="1" max="20" value="2" required class="w-full bg-stone-950 border border-stone-800 rounded-lg px-2.5 py-1.5 text-xs text-stone-100 focus:outline-none focus:border-amber-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-stone-400 mb-1 uppercase">Tisch</label>
-                        <select id="resTableSelect" class="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"></select>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-stone-400 mb-1 uppercase">Uhrzeit</label>
-                        <input type="time" id="resTime" value="19:00" required class="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-stone-400 mb-1 uppercase">Telefon (Optional)</label>
-                        <input type="tel" id="resPhone" placeholder="+43 ..." class="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500">
+                        <label class="block text-[10px] font-semibold text-stone-400 mb-1 uppercase">Tisch</label>
+                        <select id="resTableSelect" class="w-full bg-stone-950 border border-stone-800 rounded-lg px-2.5 py-1.5 text-xs text-stone-100 focus:outline-none focus:border-amber-500"></select>
                     </div>
                 </div>
 
-                <div class="pt-3 flex justify-end space-x-3 border-t border-stone-800">
-                    <button type="button" onclick="closeReservationModal()" class="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-lg text-xs font-semibold">Abbrechen</button>
-                    <button type="submit" class="px-5 py-2 bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold rounded-lg text-xs shadow-lg">Reservierung Speichern</button>
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div>
+                        <label class="block text-[10px] font-semibold text-stone-400 mb-1 uppercase">Uhrzeit</label>
+                        <input type="time" id="resTime" value="19:00" required class="w-full bg-stone-950 border border-stone-800 rounded-lg px-2.5 py-1.5 text-xs text-stone-100 focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-semibold text-stone-400 mb-1 uppercase">Telefon (Optional)</label>
+                        <input type="tel" id="resPhone" placeholder="+43 ..." class="w-full bg-stone-950 border border-stone-800 rounded-lg px-2.5 py-1.5 text-xs text-stone-100 focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+
+                <div class="pt-2.5 flex justify-end space-x-2 border-t border-stone-800">
+                    <button type="button" onclick="closeReservationModal()" class="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-lg text-xs font-semibold">Abbrechen</button>
+                    <button type="submit" class="px-4 py-1.5 bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold rounded-lg text-xs shadow-lg">Reservierung Speichern</button>
                 </div>
             </form>
         </div>
@@ -214,12 +214,11 @@
 
     <!-- LOGIC SCRIPT -->
     <script>
-        // Rotating cube content
         const cubeIcons = [
-            `<div class="flex flex-col items-center justify-center leading-none"><span class="text-[8px]">—</span><span class="text-base font-extrabold leading-none my-[-2px]">Ö</span><span class="text-[7px]">•</span></div>`,
-            `<i class="fa-solid fa-kitchen-set text-base"></i>`,
-            `<i class="fa-solid fa-utensils text-base"></i>`,
-            `<i class="fa-solid fa-bell-concierge text-base"></i>`
+            `<div class="flex flex-col items-center justify-center leading-none"><span class="text-[7px]">—</span><span class="text-sm font-extrabold leading-none my-[-2px]">Ö</span><span class="text-[6px]">•</span></div>`,
+            `<i class="fa-solid fa-kitchen-set text-sm"></i>`,
+            `<i class="fa-solid fa-utensils text-sm"></i>`,
+            `<i class="fa-solid fa-bell-concierge text-sm"></i>`
         ];
         let currentCubeIndex = 0;
         setInterval(() => {
@@ -228,60 +227,50 @@
             if (cubeElem) cubeElem.innerHTML = cubeIcons[currentCubeIndex];
         }, 3500);
 
-        // FULL GASTRONAUT TABLE CONFIGURATION INCLUDING ALL MISSING TABLES
+        // OPTIMIZED COMPACT COORDINATES TO FIT TABLET AND PC FULLSCREEN
         let tablesData = [
-            // Top Table
-            { id: '101', shape: 'rect', top: 15, left: 160, pax: 4, res: null },
+            { id: '101', shape: 'rect', top: 10, left: 140, pax: 4, res: null },
 
-            // Left Block Top (102, 103, 104, 105)
-            { id: '102', shape: 'rect', top: 220, left: 15, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: 'Sperren', badgeBg: 'bg-rose-600' } },
-            { id: '103', shape: 'rect', top: 220, left: 80, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
-            { id: '104', shape: 'rect', top: 220, left: 145, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
-            { id: '105', shape: 'rect', top: 220, left: 210, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: '102', shape: 'rect', top: 150, left: 10, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: 'Sperren', badgeBg: 'bg-rose-600' } },
+            { id: '103', shape: 'rect', top: 150, left: 68, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: '104', shape: 'rect', top: 150, left: 126, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: '105', shape: 'rect', top: 150, left: 184, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
 
-            // Left Block Bottom (109, 108, 107, 106)
-            { id: '109', shape: 'rect', top: 430, left: 15, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
-            { id: '108', shape: 'rect', top: 430, left: 80, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
-            { id: '107', shape: 'rect', top: 430, left: 145, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
-            { id: '106', shape: 'rect', top: 430, left: 210, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: '109', shape: 'rect', top: 300, left: 10, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: '108', shape: 'rect', top: 300, left: 68, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: '107', shape: 'rect', top: 300, left: 126, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: '106', shape: 'rect', top: 300, left: 184, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
 
-            // Large Long Table at the bottom (Big T-Systems)
-            { id: 'T-Sys Big', shape: 'rect', top: 600, left: 75, width: 150, pax: 12, res: { name: 'T-Systems Int.', timeStart: '19:00', timeEnd: '22:00', pax: 12, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: 'T-Sys Big', shape: 'rect', top: 430, left: 55, width: 130, pax: 12, res: { name: 'T-Systems Int.', timeStart: '19:00', timeEnd: '22:00', pax: 12, badge: '10-16', badgeBg: 'bg-amber-600' } },
 
-            // Middle Column 1 (201, 205, 210)
-            { id: '201', shape: 'rect', top: 250, left: 295, pax: 4, res: { name: 'Karlien Klo...', timeStart: '19:00', timeEnd: '21:00', pax: 3, badge: '10-16', badgeBg: 'bg-amber-600' } },
-            { id: '205', shape: 'rect', top: 350, left: 295, pax: 4, res: { name: 'Nikola Kob...', timeStart: '17:30', timeEnd: '20:00', pax: 3, badge: '10-16', badgeBg: 'bg-amber-600' } },
-            { id: '210', shape: 'rect', top: 450, left: 295, pax: 4, res: { name: 'Andrea Zin...', timeStart: '17:30', timeEnd: '20:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: '201', shape: 'rect', top: 170, left: 255, pax: 4, res: { name: 'Karlien Klo...', timeStart: '19:00', timeEnd: '21:00', pax: 3, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: '205', shape: 'rect', top: 250, left: 255, pax: 4, res: { name: 'Nikola Kob...', timeStart: '17:30', timeEnd: '20:00', pax: 3, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: '210', shape: 'rect', top: 330, left: 255, pax: 4, res: { name: 'Andrea Zin...', timeStart: '17:30', timeEnd: '20:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
 
-            // Middle Column 2 (307, 308, 305, 306, 303, 302, 301)
-            { id: '307', shape: 'rect', top: 20, left: 420, pax: 2, res: { name: 'Volodymyr', timeStart: '10:00', timeEnd: '12:00', pax: 2, badge: '18:45', badgeBg: 'bg-teal-500 text-slate-950' } },
-            { id: '308', shape: 'rect', top: 20, left: 485, pax: 2, res: { name: 'Britta Stef', timeStart: '11:00', timeEnd: '18:45', pax: 4, badge: '18:45', badgeBg: 'bg-teal-500 text-slate-950' } },
-            { id: '305', shape: 'rect', top: 120, left: 420, pax: 2, res: { name: 'Josef Toman', timeStart: '11:30', timeEnd: '18:00', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
-            { id: '306', shape: 'rect', top: 210, left: 420, pax: 2, res: { name: 'Karlien Klo...', timeStart: '11:00', timeEnd: '17:30', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
-            { id: '303', shape: 'rect', top: 300, left: 420, pax: 2, res: { name: 'Nikola Kob...', timeStart: '17:30', timeEnd: '20:00', pax: 3, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
-            { id: '302', shape: 'rect', top: 390, left: 420, pax: 2, res: { name: 'Nikola Kob...', timeStart: '17:30', timeEnd: '20:00', pax: 3, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
-            { id: '301', shape: 'rect', top: 475, left: 420, pax: 2, res: { name: 'Andrea Zin...', timeStart: '10:00', timeEnd: '12:30', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '307', shape: 'rect', top: 10, left: 360, pax: 2, res: { name: 'Volodymyr', timeStart: '10:00', timeEnd: '12:00', pax: 2, badge: '18:45', badgeBg: 'bg-teal-500 text-slate-950' } },
+            { id: '308', shape: 'rect', top: 10, left: 418, pax: 2, res: { name: 'Britta Stef', timeStart: '11:00', timeEnd: '18:45', pax: 4, badge: '18:45', badgeBg: 'bg-teal-500 text-slate-950' } },
+            { id: '305', shape: 'rect', top: 80, left: 360, pax: 2, res: { name: 'Josef Toman', timeStart: '11:30', timeEnd: '18:00', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '306', shape: 'rect', top: 150, left: 360, pax: 2, res: { name: 'Karlien Klo...', timeStart: '11:00', timeEnd: '17:30', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '303', shape: 'rect', top: 220, left: 360, pax: 2, res: { name: 'Nikola Kob...', timeStart: '17:30', timeEnd: '20:00', pax: 3, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '302', shape: 'rect', top: 290, left: 360, pax: 2, res: { name: 'Nikola Kob...', timeStart: '17:30', timeEnd: '20:00', pax: 3, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '301', shape: 'rect', top: 355, left: 360, pax: 2, res: { name: 'Andrea Zin...', timeStart: '10:00', timeEnd: '12:30', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
 
-            // Round Tables Center (310, 311)
-            { id: '310', shape: 'circle', top: 220, left: 555, pax: 5, res: { name: 'Hannes Royer', timeStart: '13:15', timeEnd: '17:45', pax: 5, badge: 'Platziert', badgeBg: 'bg-teal-500 text-slate-950' } },
-            { id: '311', shape: 'circle', top: 390, left: 555, pax: 6, res: { name: 'Fridolin Egerer', timeStart: '11:30', timeEnd: '18:00', pax: 6, badge: 'Platziert', badgeBg: 'bg-teal-500 text-slate-950' } },
+            { id: '310', shape: 'circle', top: 150, left: 475, pax: 5, res: { name: 'Hannes Royer', timeStart: '13:15', timeEnd: '17:45', pax: 5, badge: 'Platziert', badgeBg: 'bg-teal-500 text-slate-950' } },
+            { id: '311', shape: 'circle', top: 280, left: 475, pax: 6, res: { name: 'Fridolin Egerer', timeStart: '11:30', timeEnd: '18:00', pax: 6, badge: 'Platziert', badgeBg: 'bg-teal-500 text-slate-950' } },
 
-            // Column Right 1 (405, 404, 403, 402, 401)
-            { id: '405', shape: 'rect', top: 120, left: 680, pax: 2, res: { name: 'Matthias C...', timeStart: '12:30', timeEnd: '18:30', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
-            { id: '404', shape: 'rect', top: 210, left: 680, pax: 8, res: { name: 'Heda Sunts...', timeStart: '13:00', timeEnd: '19:00', pax: 8, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
-            { id: '403', shape: 'rect', top: 310, left: 680, pax: 4, res: { name: 'Belegt', timeStart: '13:00', timeEnd: '18:00', pax: 4, badge: 'Belegt', badgeBg: 'bg-rose-600 text-white' } },
-            { id: '402', shape: 'rect', top: 400, left: 680, pax: 2, res: { name: 'Denise Ghard', timeStart: '13:00', timeEnd: '18:00', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
-            { id: '401', shape: 'rect', top: 480, left: 680, pax: 2, res: { name: 'Denise Ghard', timeStart: '10:30', timeEnd: '13:00', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '405', shape: 'rect', top: 80, left: 580, pax: 2, res: { name: 'Matthias C...', timeStart: '12:30', timeEnd: '18:30', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '404', shape: 'rect', top: 150, left: 580, pax: 8, res: { name: 'Heda Sunts...', timeStart: '13:00', timeEnd: '19:00', pax: 8, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '403', shape: 'rect', top: 220, left: 580, pax: 4, res: { name: 'Belegt', timeStart: '13:00', timeEnd: '18:00', pax: 4, badge: 'Belegt', badgeBg: 'bg-rose-600 text-white' } },
+            { id: '402', shape: 'rect', top: 290, left: 580, pax: 2, res: { name: 'Denise Ghard', timeStart: '13:00', timeEnd: '18:00', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '401', shape: 'rect', top: 355, left: 580, pax: 2, res: { name: 'Denise Ghard', timeStart: '10:30', timeEnd: '13:00', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
 
-            // Column Right 2 Round & Rect (407, 408, 409)
-            { id: '407', shape: 'circle', top: 20, left: 790, pax: 4, res: { name: 'Vivien', timeStart: '12:15', timeEnd: '17:30', pax: 4, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
-            { id: '408', shape: 'circle', top: 260, left: 790, pax: 2, res: { name: 'Benedikt Bi...', timeStart: '12:30', timeEnd: '17:30', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
-            { id: '409', shape: 'circle', top: 420, left: 790, pax: 2, res: { name: 'Karl Grasl', timeStart: '12:30', timeEnd: '19:30', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '407', shape: 'circle', top: 10, left: 675, pax: 4, res: { name: 'Vivien', timeStart: '12:15', timeEnd: '17:30', pax: 4, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '408', shape: 'circle', top: 180, left: 675, pax: 2, res: { name: 'Benedikt Bi...', timeStart: '12:30', timeEnd: '17:30', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '409', shape: 'circle', top: 300, left: 675, pax: 2, res: { name: 'Karl Grasl', timeStart: '12:30', timeEnd: '19:30', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
 
-            // Bottom Row (666, 410, 411)
-            { id: '666', shape: 'rect', top: 580, left: 555, pax: 3, res: { name: 'Rene', timeStart: '18:15', timeEnd: '20:15', pax: 3, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
-            { id: '410', shape: 'rect', top: 580, left: 680, pax: 2, res: { name: 'Keiko Ishihara', timeStart: '12:30', timeEnd: '19:15', pax: 1, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
-            { id: '411', shape: 'rect', top: 580, left: 790, pax: 2, res: { name: 'katarina', timeStart: '13:00', timeEnd: '15:00', pax: 1, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } }
+            { id: '666', shape: 'rect', top: 415, left: 475, pax: 3, res: { name: 'Rene', timeStart: '18:15', timeEnd: '20:15', pax: 3, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '410', shape: 'rect', top: 415, left: 580, pax: 2, res: { name: 'Keiko Ishihara', timeStart: '12:30', timeEnd: '19:15', pax: 1, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '411', shape: 'rect', top: 415, left: 675, pax: 2, res: { name: 'katarina', timeStart: '13:00', timeEnd: '15:00', pax: 1, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } }
         ];
 
         let selectedDate = new Date(2026, 9, 20);
@@ -294,13 +283,12 @@
             tablesData.forEach(table => {
                 const isCircle = table.shape === 'circle';
                 const hasRes = table.res !== null;
-                const customWidth = table.width ? `w-[${table.width}px]` : (isCircle ? 'w-16 h-16' : 'w-14 h-14');
 
                 const node = document.createElement('div');
                 node.id = `table-node-${table.id}`;
                 node.setAttribute('draggable', 'true');
                 node.className = `table-node absolute flex flex-col items-center justify-between p-1 cursor-grab shadow-lg ${
-                    isCircle ? 'w-16 h-16 rounded-full' : (table.width ? 'h-14 rounded-xl' : 'w-14 h-14 rounded-xl')
+                    isCircle ? 'w-13 h-13 rounded-full' : (table.width ? 'h-12 rounded-xl' : 'w-12 h-12 rounded-lg')
                 } ${
                     hasRes 
                         ? (table.res.badge === 'Belegt' ? 'bg-rose-950/80 border-2 border-rose-500' : 'bg-slate-800/90 border-2 border-teal-400')
@@ -311,13 +299,13 @@
                 node.style.left = `${table.left}px`;
                 if(table.width) node.style.width = `${table.width}px`;
 
-                let resHeader = hasRes ? `<div class="bg-teal-400 text-slate-950 font-bold text-[8px] px-1 rounded-t w-full text-center leading-none py-0.5">${table.res.timeStart}</div>` : '';
-                let resFooter = hasRes ? `<div class="text-[8px] px-1 rounded-b w-full text-center font-semibold leading-none py-0.5 ${table.res.badgeBg || 'bg-teal-500 text-slate-950'}">${table.res.badge || table.res.timeEnd}</div>` : '';
-                let resName = hasRes ? `<span class="text-[9px] text-slate-200 font-bold truncate max-w-full px-1 bg-slate-950/80 rounded">${table.res.name}</span>` : `<span class="text-[8px] text-slate-500 italic">Frei</span>`;
+                let resHeader = hasRes ? `<div class="bg-teal-400 text-slate-950 font-bold text-[7px] px-0.5 rounded-t w-full text-center leading-none py-0.5">${table.res.timeStart}</div>` : '';
+                let resFooter = hasRes ? `<div class="text-[7px] px-0.5 rounded-b w-full text-center font-semibold leading-none py-0.5 ${table.res.badgeBg || 'bg-teal-500 text-slate-950'}">${table.res.badge || table.res.timeEnd}</div>` : '';
+                let resName = hasRes ? `<span class="text-[8px] text-slate-200 font-bold truncate max-w-full px-0.5 bg-slate-950/80 rounded my-[1px]">${table.res.name}</span>` : `<span class="text-[7px] text-slate-500 italic">Frei</span>`;
 
                 node.innerHTML = `
                     ${resHeader}
-                    <div class="font-bold text-[11px] text-white my-auto flex items-center gap-1 leading-none">
+                    <div class="font-bold text-[10px] text-white my-auto flex items-center gap-1 leading-none">
                         ${table.id}
                     </div>
                     ${resName}
@@ -385,15 +373,15 @@
                 totalPax += parseInt(t.res.pax || 2);
 
                 const card = document.createElement('div');
-                card.className = 'bg-stone-950 border border-stone-800 hover:border-amber-500/50 rounded-xl p-3 text-xs transition-all shadow-md group cursor-pointer';
+                card.className = 'bg-stone-950 border border-stone-800 hover:border-amber-500/50 rounded-xl p-2.5 text-xs transition-all shadow-md group cursor-pointer';
                 card.innerHTML = `
-                    <div class="flex justify-between text-stone-400 text-[11px] font-mono mb-1">
+                    <div class="flex justify-between text-stone-400 text-[10px] font-mono mb-0.5">
                         <span>${t.res.timeStart} - ${t.res.timeEnd || '21:00'} • ${t.res.pax} Pax</span>
                         <span class="text-amber-500 font-bold">Tisch ${t.id}</span>
                     </div>
-                    <div class="flex justify-between items-center my-1">
-                        <h4 class="font-bold text-stone-100 text-sm group-hover:text-amber-400 transition-colors">${t.res.name}</h4>
-                        <span class="bg-teal-500/10 text-teal-400 border border-teal-500/20 text-[10px] px-2 py-0.5 rounded-full font-medium">${t.res.badge || 'Bestätigt'}</span>
+                    <div class="flex justify-between items-center my-0.5">
+                        <h4 class="font-bold text-stone-100 text-xs group-hover:text-amber-400 transition-colors">${t.res.name}</h4>
+                        <span class="bg-teal-500/10 text-teal-400 border border-teal-500/20 text-[9px] px-1.5 py-0.5 rounded-full font-medium">${t.res.badge || 'Bestätigt'}</span>
                     </div>
                 `;
                 listContainer.appendChild(card);
@@ -477,7 +465,7 @@
             
             for (let i = 1; i <= 31; i++) {
                 const dayBtn = document.createElement('button');
-                dayBtn.className = `p-1.5 rounded-lg hover:bg-amber-500/20 hover:text-amber-400 ${i === selectedDate.getDate() ? 'bg-amber-500 text-stone-950 font-bold' : 'text-stone-300'}`;
+                dayBtn.className = `p-1 rounded-md hover:bg-amber-500/20 hover:text-amber-400 ${i === selectedDate.getDate() ? 'bg-amber-500 text-stone-950 font-bold' : 'text-stone-300'}`;
                 dayBtn.innerText = i;
                 dayBtn.onclick = () => {
                     selectedDate.setDate(i);
