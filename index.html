@@ -3,87 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TK Desk – Salonplafond</title>
-    <!-- Tailwind CSS CDN für schnelles & modernes Styling -->
+    <title>TK Desk – Salonplafond Saalplan</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body class="bg-stone-900 text-stone-100 min-h-screen flex flex-col font-sans antialiased">
 
-    <!-- HEADER / NAVIGATION -->
+    <!-- HEADER -->
     <header class="bg-stone-950 border-b border-stone-800 px-6 py-4 flex justify-between items-center shadow-lg">
-        <!-- Logo & Title -->
         <div class="flex items-center space-x-4">
             <div class="w-10 h-10 rounded-lg bg-amber-600/20 border border-amber-500/40 flex items-center justify-center font-bold text-amber-500 tracking-wider text-xl shadow-inner">
                 TK
             </div>
             <div>
                 <h1 class="text-xl font-bold tracking-tight text-stone-100 flex items-center gap-2">
-                    TK Desk <span class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded font-mono">v1.0</span>
+                    TK Desk <span class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded font-mono">Saalplan v1.0</span>
                 </h1>
                 <p class="text-xs text-stone-400">Salonplafond Tisch- & Reservierungsmanagement</p>
             </div>
         </div>
 
-        <!-- Right Badge / Author Info -->
         <div class="flex items-center space-x-3 text-xs text-stone-400 bg-stone-900 border border-stone-800 px-3 py-1.5 rounded-full">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>System Bereit</span>
+            <span>Live System</span>
             <span class="text-stone-600">|</span>
             <span class="text-stone-300 font-mono">by T0mc1k</span>
         </div>
     </header>
 
-    <!-- MAIN CONTENT AREA -->
-    <main class="flex-1 p-6 max-w-7xl mx-auto w-full">
-        <!-- Welcome Card -->
-        <div class="bg-stone-950/60 border border-stone-800 rounded-xl p-8 mb-6 backdrop-blur-sm shadow-xl">
-            <div class="flex items-start justify-between">
+    <!-- MAIN DASHBOARD -->
+    <main class="flex-1 p-6 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-4 gap-6">
+        
+        <!-- LEFT: SAALPLAN (3 COLUMNS) -->
+        <div class="lg:col-span-3 bg-stone-950/80 border border-stone-800 rounded-xl p-6 flex flex-col shadow-xl">
+            <div class="flex justify-between items-center mb-6 border-b border-stone-800 pb-4">
                 <div>
-                    <h2 class="text-2xl font-semibold text-stone-100 mb-2">Willkommen bei TK Desk</h2>
-                    <p class="text-stone-400 max-w-2xl text-sm leading-relaxed">
-                        Das maßgeschneiderte Reservierungs- und Saalplan-System für das Salonplafond. 
-                        Hier entsteht das interaktive Modul für Tischübersicht, Saalplan und Reservierungen.
-                    </p>
+                    <h2 class="text-lg font-semibold text-stone-100">Saalübersicht / Hauptraum</h2>
+                    <p class="text-xs text-stone-400">Klicke auf einen Tisch für Details oder neue Reservierung.</p>
                 </div>
-                <div class="p-3 bg-stone-900 border border-stone-800 rounded-lg text-amber-500">
-                    <i class="fa-solid fa-utensils text-2xl"></i>
+                <div class="flex gap-2 text-xs">
+                    <span class="flex items-center gap-1 bg-emerald-950/50 border border-emerald-800 text-emerald-400 px-2.5 py-1 rounded"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Frei</span>
+                    <span class="flex items-center gap-1 bg-amber-950/50 border border-amber-800 text-amber-400 px-2.5 py-1 rounded"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Reserviert</span>
+                    <span class="flex items-center gap-1 bg-rose-950/50 border border-rose-800 text-rose-400 px-2.5 py-1 rounded"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Belegt</span>
+                </div>
+            </div>
+
+            <!-- TABLE GRID -->
+            <div class="grid grid-cols-3 sm:grid-cols-4 gap-4 flex-1">
+                <!-- Table 1 -->
+                <div onclick="selectTable('Tisch 1', 'Frei', '4 Personen')" class="bg-stone-900 border border-emerald-500/40 hover:border-emerald-400 p-4 rounded-xl flex flex-col justify-between cursor-pointer transition-all hover:scale-105 shadow-md">
+                    <div class="flex justify-between text-xs text-stone-400">
+                        <span class="font-mono font-bold text-stone-200">T01</span>
+                        <span>4 P.</span>
+                    </div>
+                    <div class="text-center my-3">
+                        <i class="fa-solid fa-chair text-emerald-400 text-xl"></i>
+                        <p class="text-sm font-medium text-stone-200 mt-1">Tisch 1</p>
+                    </div>
+                    <span class="text-[10px] text-center bg-emerald-500/10 text-emerald-400 py-0.5 rounded uppercase font-semibold">Frei</span>
+                </div>
+
+                <!-- Table 2 -->
+                <div onclick="selectTable('Tisch 2', 'Belegt', '2 Personen (Schmidt)')" class="bg-stone-900 border border-rose-500/40 hover:border-rose-400 p-4 rounded-xl flex flex-col justify-between cursor-pointer transition-all hover:scale-105 shadow-md">
+                    <div class="flex justify-between text-xs text-stone-400">
+                        <span class="font-mono font-bold text-stone-200">T02</span>
+                        <span>2 P.</span>
+                    </div>
+                    <div class="text-center my-3">
+                        <i class="fa-solid fa-chair text-rose-400 text-xl"></i>
+                        <p class="text-sm font-medium text-stone-200 mt-1">Tisch 2</p>
+                    </div>
+                    <span class="text-[10px] text-center bg-rose-500/10 text-rose-400 py-0.5 rounded uppercase font-semibold">Belegt</span>
+                </div>
+
+                <!-- Table 3 -->
+                <div onclick="selectTable('Tisch 3', 'Reserviert', '6 Personen (19:30 Uhr - Weber)')" class="bg-stone-900 border border-amber-500/40 hover:border-amber-400 p-4 rounded-xl flex flex-col justify-between cursor-pointer transition-all hover:scale-105 shadow-md">
+                    <div class="flex justify-between text-xs text-stone-400">
+                        <span class="font-mono font-bold text-stone-200">T03</span>
+                        <span>6 P.</span>
+                    </div>
+                    <div class="text-center my-3">
+                        <i class="fa-solid fa-chair text-amber-400 text-xl"></i>
+                        <p class="text-sm font-medium text-stone-200 mt-1">Tisch 3</p>
+                    </div>
+                    <span class="text-[10px] text-center bg-amber-500/10 text-amber-400 py-0.5 rounded uppercase font-semibold">Reserviert</span>
+                </div>
+
+                <!-- Table 4 -->
+                <div onclick="selectTable('Tisch 4', 'Frei', '2 Personen')" class="bg-stone-900 border border-emerald-500/40 hover:border-emerald-400 p-4 rounded-xl flex flex-col justify-between cursor-pointer transition-all hover:scale-105 shadow-md">
+                    <div class="flex justify-between text-xs text-stone-400">
+                        <span class="font-mono font-bold text-stone-200">T04</span>
+                        <span>2 P.</span>
+                    </div>
+                    <div class="text-center my-3">
+                        <i class="fa-solid fa-chair text-emerald-400 text-xl"></i>
+                        <p class="text-sm font-medium text-stone-200 mt-1">Tisch 4</p>
+                    </div>
+                    <span class="text-[10px] text-center bg-emerald-500/10 text-emerald-400 py-0.5 rounded uppercase font-semibold">Frei</span>
                 </div>
             </div>
         </div>
 
-        <!-- Placeholder Grid for Modules -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Saalplan Module Card -->
-            <div class="bg-stone-950 border border-stone-800 hover:border-amber-500/50 transition-all rounded-xl p-5 cursor-pointer group">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs font-semibold uppercase tracking-wider text-amber-500/80">Modul 1</span>
-                    <i class="fa-solid fa-map-location-dot text-stone-500 group-hover:text-amber-400 transition-colors"></i>
-                </div>
-                <h3 class="text-lg font-medium text-stone-200 group-hover:text-amber-400 transition-colors">Saalplan & Tische</h3>
-                <p class="text-xs text-stone-400 mt-1">Interaktive Übersicht aller Tische und Bereiche im Restaurant.</p>
+        <!-- RIGHT: DETAILS & QUICK ACTIONS -->
+        <div class="bg-stone-950/80 border border-stone-800 rounded-xl p-6 flex flex-col shadow-xl">
+            <h3 class="text-sm font-semibold uppercase tracking-wider text-amber-500 mb-4 border-b border-stone-800 pb-2">Tischdetails</h3>
+            
+            <div id="tableDetails" class="flex-1 flex flex-col justify-center text-center text-stone-400 text-sm">
+                <i class="fa-solid fa-hand-pointer text-3xl mb-2 text-stone-600"></i>
+                <p>Wähle einen Tisch im Saalplan aus, um Details und Status anzuzeigen.</p>
             </div>
 
-            <!-- Reservierungen Module Card -->
-            <div class="bg-stone-950 border border-stone-800 hover:border-amber-500/50 transition-all rounded-xl p-5 cursor-pointer group">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs font-semibold uppercase tracking-wider text-amber-500/80">Modul 2</span>
-                    <i class="fa-solid fa-calendar-check text-stone-500 group-hover:text-amber-400 transition-colors"></i>
-                </div>
-                <h3 class="text-lg font-medium text-stone-200 group-hover:text-amber-400 transition-colors">Reservierungen</h3>
-                <p class="text-xs text-stone-400 mt-1">Gästeliste, Buchungen und Zeitslots verwalten.</p>
-            </div>
-
-            <!-- Einstellungen Module Card -->
-            <div class="bg-stone-950 border border-stone-800 hover:border-amber-500/50 transition-all rounded-xl p-5 cursor-pointer group">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs font-semibold uppercase tracking-wider text-amber-500/80">Modul 3</span>
-                    <i class="fa-solid fa-sliders text-stone-500 group-hover:text-amber-400 transition-colors"></i>
-                </div>
-                <h3 class="text-lg font-medium text-stone-200 group-hover:text-amber-400 transition-colors">Einstellungen</h3>
-                <p class="text-xs text-stone-400 mt-1">Supabase Datenbankverbindung und Systemkonfiguration.</p>
+            <div class="mt-4 pt-4 border-t border-stone-800">
+                <button onclick="alert('Neue Reservierung hinzufügen - Modul folgt')" class="w-full bg-amber-600 hover:bg-amber-500 text-stone-950 font-semibold py-2.5 px-4 rounded-lg text-xs transition-colors shadow-lg">
+                    <i class="fa-solid fa-plus mr-1"></i> Neue Reservierung
+                </button>
             </div>
         </div>
+
     </main>
 
     <!-- FOOTER -->
@@ -92,5 +129,31 @@
         <span class="font-mono text-stone-400">Developed by T0mc1k</span>
     </footer>
 
+    <!-- SCRIPT FOR INTERACTION -->
+    <script>
+        function selectTable(name, status, details) {
+            const container = document.getElementById('tableDetails');
+            let statusColor = 'text-emerald-400';
+            if(status === 'Belegt') statusColor = 'text-rose-400';
+            if(status === 'Reserviert') statusColor = 'text-amber-400';
+
+            container.innerHTML = `
+                <div class="text-left space-y-3 bg-stone-900 p-4 rounded-lg border border-stone-800">
+                    <div>
+                        <span class="text-xs text-stone-500 uppercase">Ausgewählt</span>
+                        <h4 class="text-base font-bold text-stone-100">${name}</h4>
+                    </div>
+                    <div>
+                        <span class="text-xs text-stone-500 uppercase">Status</span>
+                        <p class="text-sm font-semibold ${statusColor}">${status}</p>
+                    </div>
+                    <div>
+                        <span class="text-xs text-stone-500 uppercase">Information</span>
+                        <p class="text-xs text-stone-300">${details}</p>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
 </body>
 </html>
