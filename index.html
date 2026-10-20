@@ -13,48 +13,100 @@
         ::-webkit-scrollbar-thumb { background: #292524; border-radius: 3px; }
         .table-draggable { cursor: grab; touch-action: none; }
         .table-draggable:active { cursor: grabbing; scale: 1.05; }
+        
+        /* Logo Pulse & Glow Animations */
+        @keyframes goldGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(245, 158, 11, 0.2), inset 0 0 8px rgba(245, 158, 11, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.5), inset 0 0 15px rgba(245, 158, 11, 0.5); }
+        }
+        .logo-glow { animation: goldGlow 3s infinite ease-in-out; }
+
+        @keyframes iconFade {
+            0% { opacity: 0; transform: translateY(-4px) scale(0.9); }
+            15% { opacity: 1; transform: translateY(0) scale(1); }
+            85% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(4px) scale(0.9); }
+        }
+        .icon-swap { animation: iconFade 3s infinite ease-in-out; }
     </style>
 </head>
 <body class="bg-stone-950 text-stone-100 h-screen flex flex-col font-sans overflow-hidden select-none">
 
     <!-- HEADER / TOP BAR -->
-    <header class="bg-stone-900/90 border-b border-stone-800/80 h-16 px-6 flex items-center justify-between shrink-0 shadow-xl backdrop-blur-md">
-        <!-- Logo & Title -->
-        <div class="flex items-center space-x-4">
-            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center font-bold text-amber-500 tracking-wider text-lg shadow-inner">
-                TK
-            </div>
-            <div>
-                <h1 class="text-base font-bold tracking-wide text-stone-100 flex items-center gap-2">
-                    TK Desk <span class="text-[10px] bg-amber-500/20 text-amber-400 border border-amber-500/30 px-1.5 py-0.2 rounded font-mono">Salonplafond</span>
-                </h1>
-                <p class="text-[11px] text-stone-400">Interaktiver Saalplan & Tischverwaltung</p>
-            </div>
-        </div>
-
-        <!-- Date Navigation -->
-        <div class="flex items-center space-x-3 text-xs">
-            <div class="flex items-center space-x-3 bg-stone-950 border border-stone-800 px-3.5 py-1.5 rounded-lg text-stone-200 shadow-inner">
-                <button class="text-stone-400 hover:text-amber-400 transition-colors"><i class="fa-solid fa-chevron-left"></i></button>
-                <span class="font-semibold text-stone-200 flex items-center gap-2">
-                    <i class="fa-regular fa-calendar text-amber-500"></i> Dienstag, 20. Okt.
-                </span>
-                <button class="text-stone-400 hover:text-amber-400 transition-colors"><i class="fa-solid fa-chevron-right"></i></button>
-            </div>
-
-            <div class="bg-stone-950 border border-stone-800 px-3 py-1.5 rounded-lg text-stone-300 flex items-center gap-2 cursor-pointer hover:border-stone-700">
-                <span>Abendschicht</span>
-                <i class="fa-solid fa-chevron-down text-[10px] text-stone-500"></i>
-            </div>
-        </div>
-
-        <!-- Right Quick Actions -->
+    <header class="bg-stone-900/90 border-b border-stone-800/80 h-16 px-6 flex items-center justify-between shrink-0 shadow-xl backdrop-blur-md relative z-20">
+        <!-- Left: Reservierungen Title & TK Desk Badge -->
         <div class="flex items-center space-x-3">
-            <button onclick="toggleAddTableModal()" class="bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-700 font-medium px-3.5 py-1.5 rounded-lg text-xs flex items-center gap-2 transition-all">
-                <i class="fa-solid fa-plus text-amber-500"></i> Tisch hinzufügen
-            </button>
-            <button class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold px-4 py-1.5 rounded-lg text-xs flex items-center gap-2 shadow-lg shadow-amber-900/20 transition-all">
-                <i class="fa-solid fa-calendar-plus"></i> Neue Reservierung
+            <h1 class="text-xl font-bold tracking-tight text-stone-100 flex items-center gap-3">
+                Reservierungen
+                <!-- TK Desk Box matching your screenshot -->
+                <span class="bg-amber-950/40 border border-amber-600/50 text-amber-500 font-bold px-3 py-1 rounded-lg text-xs tracking-wider shadow-inner flex items-center gap-1.5">
+                    <span class="text-amber-400">TK</span> <span class="text-amber-500">Desk</span>
+                </span>
+            </h1>
+        </div>
+
+        <!-- Center: Date & Shift Navigation -->
+        <div class="flex items-center space-x-3 text-xs relative">
+            <!-- Calendar Trigger Button -->
+            <div class="flex items-center space-x-3 bg-stone-950 border border-stone-800 px-3.5 py-1.5 rounded-lg text-stone-200 shadow-inner relative">
+                <button onclick="changeDate(-1)" class="text-stone-400 hover:text-amber-400 transition-colors"><i class="fa-solid fa-chevron-left"></i></button>
+                <span onclick="toggleCalendar()" class="font-semibold text-stone-200 flex items-center gap-2 cursor-pointer hover:text-amber-400 transition-colors">
+                    <i class="fa-regular fa-calendar text-amber-500"></i> <span id="currentDateDisplay">Dienstag, 20. Okt. 2026</span>
+                </span>
+                <button onclick="changeDate(1)" class="text-stone-400 hover:text-amber-400 transition-colors"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+
+            <!-- Shift Dropdown -->
+            <div class="relative">
+                <button onclick="toggleShiftDropdown()" class="bg-stone-950 border border-stone-800 px-3.5 py-1.5 rounded-lg text-stone-300 flex items-center gap-2 hover:border-stone-700 transition-colors">
+                    <span id="currentShiftText">Ganzer Tag</span>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-stone-500"></i>
+                </button>
+                
+                <div id="shiftDropdown" class="hidden absolute right-0 mt-2 w-40 bg-stone-900 border border-stone-800 rounded-xl shadow-2xl py-1 z-50 text-xs">
+                    <button onclick="selectShift('Ganzer Tag')" class="w-full text-left px-3 py-2 hover:bg-stone-800 text-amber-400 font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-sun text-amber-500"></i> Ganzer Tag
+                    </button>
+                    <button onclick="selectShift('Mittagschicht')" class="w-full text-left px-3 py-2 hover:bg-stone-800 text-stone-300 flex items-center gap-2">
+                        <i class="fa-solid fa-utensils text-stone-400"></i> Mittagschicht
+                    </button>
+                    <button onclick="selectShift('Abendschicht')" class="w-full text-left px-3 py-2 hover:bg-stone-800 text-stone-300 flex items-center gap-2">
+                        <i class="fa-solid fa-moon text-indigo-400"></i> Abendschicht
+                    </button>
+                </div>
+            </div>
+
+            <!-- POPUP CALENDAR MODAL -->
+            <div id="calendarModal" class="hidden absolute top-12 left-0 bg-stone-900 border border-stone-800 rounded-2xl shadow-2xl p-4 w-72 z-50">
+                <div class="flex justify-between items-center mb-3">
+                    <button onclick="prevMonth()" class="text-stone-400 hover:text-white p-1"><i class="fa-solid fa-chevron-left"></i></button>
+                    <span id="calendarMonthYear" class="font-bold text-stone-200 text-sm">Oktober 2026</span>
+                    <button onclick="nextMonth()" class="text-stone-400 hover:text-white p-1"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="grid grid-cols-7 gap-1 text-center text-[11px] font-semibold text-stone-500 mb-1">
+                    <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
+                </div>
+                <div id="calendarDaysGrid" class="grid grid-cols-7 gap-1 text-center text-xs font-medium">
+                    <!-- Days generated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Animated Logo & New Reservation Button -->
+        <div class="flex items-center space-x-4">
+            <!-- Animated Salonplafond Logo Badge -->
+            <div class="flex items-center space-x-2.5 bg-stone-950 border border-stone-800 px-3 py-1.5 rounded-xl shadow-inner">
+                <div id="gastroIconContainer" class="text-amber-500 text-sm w-5 text-center">
+                    <i id="gastroIcon" class="fa-solid fa-kitchen-set icon-swap"></i>
+                </div>
+                <div class="w-8 h-8 rounded-lg bg-amber-600/20 border border-amber-500/50 flex items-center justify-center font-bold text-amber-400 text-xs logo-glow tracking-widest font-mono">
+                    TK
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <button onclick="openReservationModal()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 shadow-lg shadow-amber-900/20 transition-all">
+                <i class="fa-solid fa-plus"></i> Neue Reservierung
             </button>
         </div>
     </header>
@@ -62,68 +114,28 @@
     <!-- MAIN WORKSPACE -->
     <div class="flex-1 flex overflow-hidden">
 
-        <!-- LEFT SIDEBAR: RESERVATIONS & QUICK LIST -->
+        <!-- LEFT SIDEBAR: RESERVATIONS LIST -->
         <aside class="w-80 bg-stone-900/60 border-r border-stone-800/80 flex flex-col shrink-0 backdrop-blur-sm">
-            <!-- Filter Tabs -->
             <div class="flex border-b border-stone-800/80 text-xs font-medium text-stone-400">
-                <button class="flex-1 py-3 text-amber-400 border-b-2 border-amber-500 font-semibold text-center bg-amber-500/5">Aktuell (4)</button>
+                <button class="flex-1 py-3 text-amber-400 border-b-2 border-amber-500 font-semibold text-center bg-amber-500/5">Aktuell (<span id="resCount">3</span>)</button>
                 <button class="flex-1 py-3 hover:text-stone-200 text-center">Warteliste</button>
                 <button class="flex-1 py-3 hover:text-stone-200 text-center">Alle</button>
             </div>
 
-            <!-- Stats Bar -->
             <div class="px-4 py-2.5 border-b border-stone-800/60 flex items-center justify-between text-[11px] text-stone-400 bg-stone-950/40">
-                <span class="flex items-center gap-1.5"><i class="fa-solid fa-user-group text-amber-500/80"></i> <strong class="text-stone-200">28</strong> Gäste</span>
-                <span class="flex items-center gap-1.5"><i class="fa-solid fa-chair text-amber-500/80"></i> <strong class="text-stone-200">12/18</strong> Tische</span>
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-user-group text-amber-500/80"></i> <strong id="totalPax" class="text-stone-200">12</strong> Gäste</span>
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-chair text-amber-500/80"></i> <strong class="text-stone-200">3/18</strong> Tische</span>
             </div>
 
             <!-- Reservation List -->
-            <div class="flex-1 overflow-y-auto p-3 space-y-2.5">
-                
-                <!-- Card 1 -->
-                <div class="bg-stone-950 border border-amber-500/30 hover:border-amber-500/60 rounded-xl p-3 text-xs transition-all shadow-md group cursor-pointer">
-                    <div class="flex justify-between text-stone-400 text-[11px] font-mono mb-1">
-                        <span>18:30 - 20:30 • 4 Pax</span>
-                        <span class="text-amber-500 font-semibold">Tisch 101</span>
-                    </div>
-                    <div class="flex justify-between items-center my-1">
-                        <h4 class="font-bold text-stone-100 text-sm group-hover:text-amber-400 transition-colors">Dr. Gruber</h4>
-                        <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] px-2 py-0.5 rounded-full font-medium">Platziert</span>
-                    </div>
-                    <p class="text-[11px] text-stone-500 mt-1 italic">Fensterplatz gewünscht</p>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="bg-stone-950 border border-stone-800 hover:border-stone-700 rounded-xl p-3 text-xs transition-all shadow-md group cursor-pointer">
-                    <div class="flex justify-between text-stone-400 text-[11px] font-mono mb-1">
-                        <span>19:00 - 21:00 • 2 Pax</span>
-                        <span class="text-stone-300 font-semibold">Tisch 102</span>
-                    </div>
-                    <div class="flex justify-between items-center my-1">
-                        <h4 class="font-bold text-stone-200 text-sm group-hover:text-amber-400 transition-colors">Vanesa L.</h4>
-                        <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] px-2 py-0.5 rounded-full font-medium">Bestätigt</span>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="bg-stone-950 border border-stone-800 hover:border-stone-700 rounded-xl p-3 text-xs transition-all shadow-md group cursor-pointer">
-                    <div class="flex justify-between text-stone-400 text-[11px] font-mono mb-1">
-                        <span>19:30 - 21:30 • 6 Pax</span>
-                        <span class="text-stone-300 font-semibold">Tisch 201</span>
-                    </div>
-                    <div class="flex justify-between items-center my-1">
-                        <h4 class="font-bold text-stone-200 text-sm group-hover:text-amber-400 transition-colors">Kardoš (Geburtstag)</h4>
-                        <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] px-2 py-0.5 rounded-full font-medium">Bestätigt</span>
-                    </div>
-                </div>
-
+            <div id="reservationList" class="flex-1 overflow-y-auto p-3 space-y-2.5">
+                <!-- Cards populated dynamically -->
             </div>
         </aside>
 
-        <!-- RIGHT: INTERACTIVE FLOOR PLAN (CANVAS) -->
+        <!-- RIGHT: INTERACTIVE FLOOR PLAN -->
         <main class="flex-1 bg-stone-950 relative p-6 overflow-hidden flex flex-col justify-between">
             
-            <!-- Area Header -->
             <div class="flex justify-between items-center mb-4 z-10">
                 <div class="flex items-center space-x-3">
                     <span class="text-xs text-stone-400 uppercase tracking-wider font-semibold">Bereich:</span>
@@ -139,7 +151,6 @@
             <!-- INTERACTIVE FLOOR CANVAS -->
             <div id="floorPlanCanvas" class="relative w-full flex-1 border border-stone-800/60 rounded-2xl bg-stone-900/20 backdrop-blur-sm overflow-hidden shadow-inner">
                 
-                <!-- Table 101 -->
                 <div id="t101" style="top: 40px; left: 60px;" class="table-draggable absolute bg-stone-900 border-2 border-emerald-500/60 hover:border-emerald-400 w-28 h-20 rounded-xl flex flex-col justify-between p-2 shadow-xl transition-shadow">
                     <div class="flex justify-between items-center text-[10px] text-stone-400 font-mono">
                         <span class="font-bold text-emerald-400">T101</span>
@@ -149,7 +160,6 @@
                     <div class="text-[9px] bg-emerald-500/20 text-emerald-400 text-center rounded py-0.5 font-semibold">Belegt</div>
                 </div>
 
-                <!-- Table 102 -->
                 <div id="t102" style="top: 40px; left: 210px;" class="table-draggable absolute bg-stone-900 border-2 border-amber-500/60 hover:border-amber-400 w-28 h-20 rounded-xl flex flex-col justify-between p-2 shadow-xl transition-shadow">
                     <div class="flex justify-between items-center text-[10px] text-stone-400 font-mono">
                         <span class="font-bold text-amber-400">T102</span>
@@ -159,7 +169,6 @@
                     <div class="text-[9px] bg-amber-500/20 text-amber-400 text-center rounded py-0.5 font-semibold">19:00 Uhr</div>
                 </div>
 
-                <!-- Table 103 (Frei) -->
                 <div id="t103" style="top: 40px; left: 360px;" class="table-draggable absolute bg-stone-900 border border-stone-700 hover:border-stone-500 w-28 h-20 rounded-xl flex flex-col justify-between p-2 shadow-xl transition-shadow opacity-80">
                     <div class="flex justify-between items-center text-[10px] text-stone-500 font-mono">
                         <span class="font-bold text-stone-400">T103</span>
@@ -169,7 +178,6 @@
                     <div class="text-[9px] bg-stone-800 text-stone-400 text-center rounded py-0.5">Bereit</div>
                 </div>
 
-                <!-- Table 201 (Round Table) -->
                 <div id="t201" style="top: 180px; left: 130px;" class="table-draggable absolute bg-stone-900 border-2 border-amber-500/60 hover:border-amber-400 w-28 h-28 rounded-full flex flex-col justify-between p-3 shadow-xl transition-shadow">
                     <div class="flex justify-between items-center text-[10px] text-stone-400 font-mono">
                         <span class="font-bold text-amber-400">T201</span>
@@ -183,16 +191,199 @@
 
             <!-- FOOTER INFO -->
             <div class="flex items-center justify-between mt-4 text-xs text-stone-500">
-                <span>Salonplafond Desk • Tischplanung</span>
-                <span class="font-mono text-stone-400">Designed & Developed by T0mc1k</span>
+                <span class="font-mono">TK Desk • T0mc1k Edition v1.0.0.0-beta</span>
+                <span class="text-stone-400 font-semibold">Salonplafond Vienna</span>
             </div>
 
         </main>
     </div>
 
-    <!-- DRAG AND DROP SCRIPT -->
+    <!-- MODAL: NEUE RESERVIERUNG -->
+    <div id="reservationModal" class="hidden fixed inset-0 bg-stone-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-stone-900 border border-stone-800 rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+            <div class="flex justify-between items-center mb-5 border-b border-stone-800 pb-3">
+                <h3 class="text-lg font-bold text-stone-100 flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-plus text-amber-500"></i> Neue Reservierung
+                </h3>
+                <button onclick="closeReservationModal()" class="text-stone-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <form id="newReservationForm" onsubmit="saveReservation(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-stone-400 mb-1 uppercase">Gast Name</label>
+                    <input type="text" id="resName" required placeholder="z.B. Thomas Kardos" class="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-stone-400 mb-1 uppercase">Personen (Pax)</label>
+                        <input type="number" id="resPax" min="1" max="20" value="2" required class="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-stone-400 mb-1 uppercase">Tisch</label>
+                        <select id="resTable" class="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500">
+                            <option value="Tisch 101">Tisch 101 (4 Pax)</option>
+                            <option value="Tisch 102">Tisch 102 (2 Pax)</option>
+                            <option value="Tisch 103">Tisch 103 (2 Pax)</option>
+                            <option value="Tisch 201">Tisch 201 (6 Pax)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-stone-400 mb-1 uppercase">Uhrzeit</label>
+                        <input type="time" id="resTime" value="19:00" required class="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-stone-400 mb-1 uppercase">Telefon (Optional)</label>
+                        <input type="tel" id="resPhone" placeholder="+43 ..." class="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-stone-400 mb-1 uppercase">Anmerkung</label>
+                    <textarea id="resNotes" rows="2" placeholder="Sonderwünsche, Allergien..." class="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"></textarea>
+                </div>
+
+                <div class="pt-3 flex justify-end space-x-3 border-t border-stone-800">
+                    <button type="button" onclick="closeReservationModal()" class="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-lg text-xs font-semibold">Abbrechen</button>
+                    <button type="submit" class="px-5 py-2 bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold rounded-lg text-xs shadow-lg">Reservierung Speichern</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- LOGIC SCRIPT -->
     <script>
-        // Simple drag and drop logic for table setup
+        // Gastro Icons rotation logic
+        const gastroIcons = [
+            'fa-kitchen-set',  // Kuchynka / Kuchár
+            'fa-utensils',     // Príbor / Taniere
+            'fa-wine-glass',   // Pohár
+            'fa-bell-concierge'// Zvonček pre obsluhu
+        ];
+        let currentIconIndex = 0;
+
+        setInterval(() => {
+            currentIconIndex = (currentIconIndex + 1) % gastroIcons.length;
+            const iconElem = document.getElementById('gastroIcon');
+            if (iconElem) {
+                iconElem.className = `fa-solid ${gastroIcons[currentIconIndex]} icon-swap`;
+            }
+        }, 3000);
+
+        // Reservations In-Memory Data
+        let reservations = [
+            { id: 1, name: "Dr. Gruber", pax: 4, table: "Tisch 101", time: "18:30 - 20:30", status: "Platziert", note: "Fensterplatz" },
+            { id: 2, name: "Vanesa L.", pax: 2, table: "Tisch 102", time: "19:00 - 21:00", status: "Bestätigt", note: "" },
+            { id: 3, name: "Kardoš", pax: 6, table: "Tisch 201", time: "19:30 - 21:30", status: "Bestätigt", note: "Geburtstag" }
+        ];
+
+        let selectedDate = new Date(2026, 9, 20);
+
+        function renderReservations() {
+            const listContainer = document.getElementById('reservationList');
+            listContainer.innerHTML = '';
+            let totalPax = 0;
+
+            reservations.forEach(res => {
+                totalPax += parseInt(res.pax);
+                const card = document.createElement('div');
+                card.className = 'bg-stone-950 border border-stone-800 hover:border-amber-500/50 rounded-xl p-3 text-xs transition-all shadow-md group cursor-pointer';
+                card.innerHTML = `
+                    <div class="flex justify-between text-stone-400 text-[11px] font-mono mb-1">
+                        <span>${res.time} • ${res.pax} Pax</span>
+                        <span class="text-amber-500 font-semibold">${res.table}</span>
+                    </div>
+                    <div class="flex justify-between items-center my-1">
+                        <h4 class="font-bold text-stone-100 text-sm group-hover:text-amber-400 transition-colors">${res.name}</h4>
+                        <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] px-2 py-0.5 rounded-full font-medium">${res.status}</span>
+                    </div>
+                    ${res.note ? `<p class="text-[11px] text-stone-500 mt-1 italic">\${res.note}</p>` : ''}
+                `;
+                listContainer.appendChild(card);
+            });
+
+            document.getElementById('resCount').innerText = reservations.length;
+            document.getElementById('totalPax').innerText = totalPax;
+        }
+
+        // Modal Handlers
+        function openReservationModal() {
+            document.getElementById('reservationModal').classList.remove('hidden');
+        }
+
+        function closeReservationModal() {
+            document.getElementById('reservationModal').classList.add('hidden');
+        }
+
+        function saveReservation(e) {
+            e.preventDefault();
+            const name = document.getElementById('resName').value;
+            const pax = document.getElementById('resPax').value;
+            const table = document.getElementById('resTable').value;
+            const time = document.getElementById('resTime').value;
+            const notes = document.getElementById('resNotes').value;
+
+            reservations.unshift({
+                id: Date.now(),
+                name: name,
+                pax: pax,
+                table: table,
+                time: `${time} Uhr`,
+                status: "Neu",
+                note: notes
+            });
+
+            renderReservations();
+            closeReservationModal();
+            document.getElementById('newReservationForm').reset();
+        }
+
+        // Calendar & Shift Logic
+        function toggleCalendar() {
+            document.getElementById('calendarModal').classList.toggle('hidden');
+            renderCalendarGrid();
+        }
+
+        function toggleShiftDropdown() {
+            document.getElementById('shiftDropdown').classList.toggle('hidden');
+        }
+
+        function selectShift(shiftName) {
+            document.getElementById('currentShiftText').innerText = shiftName;
+            document.getElementById('shiftDropdown').classList.add('hidden');
+        }
+
+        function updateDateDisplay() {
+            const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+            document.getElementById('currentDateDisplay').innerText = selectedDate.toLocaleDateString('de-DE', options);
+        }
+
+        function changeDate(days) {
+            selectedDate.setDate(selectedDate.getDate() + days);
+            updateDateDisplay();
+        }
+
+        function renderCalendarGrid() {
+            const daysGrid = document.getElementById('calendarDaysGrid');
+            daysGrid.innerHTML = '';
+            
+            for (let i = 1; i <= 31; i++) {
+                const dayBtn = document.createElement('button');
+                dayBtn.className = `p-1.5 rounded-lg hover:bg-amber-500/20 hover:text-amber-400 ${i === selectedDate.getDate() ? 'bg-amber-500 text-stone-950 font-bold' : 'text-stone-300'}`;
+                dayBtn.innerText = i;
+                dayBtn.onclick = () => {
+                    selectedDate.setDate(i);
+                    updateDateDisplay();
+                    document.getElementById('calendarModal').classList.add('hidden');
+                };
+                daysGrid.appendChild(dayBtn);
+            }
+        }
+
+        // Drag & drop logic for tables
         document.querySelectorAll('.table-draggable').forEach(elm => {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
             elm.onmousedown = dragMouseDown;
@@ -200,7 +391,6 @@
 
             function dragMouseDown(e) {
                 e = e || window.event;
-                e.preventDefault();
                 pos3 = e.clientX;
                 pos4 = e.clientY;
                 document.onmouseup = closeDragElement;
@@ -217,7 +407,6 @@
 
             function elementDrag(e) {
                 e = e || window.event;
-                e.preventDefault();
                 pos1 = pos3 - e.clientX;
                 pos2 = pos4 - e.clientY;
                 pos3 = e.clientX;
@@ -243,6 +432,10 @@
                 document.ontouchmove = null;
             }
         });
+
+        // Initialize on load
+        renderReservations();
+        updateDateDisplay();
     </script>
 </body>
 </html>
