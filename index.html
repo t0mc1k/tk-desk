@@ -3,157 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TK Desk – Salonplafond Saalplan</title>
+    <title>TK Desk – Reservierungen & Saalplan</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Custom scrollbar for dark layout */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
 </head>
-<body class="bg-stone-900 text-stone-100 min-h-screen flex flex-col font-sans antialiased">
+<body class="bg-[#0b1315] text-slate-200 h-screen flex flex-col font-sans overflow-hidden select-none">
 
-    <!-- HEADER -->
-    <header class="bg-stone-950 border-b border-stone-800 px-6 py-4 flex justify-between items-center shadow-lg">
+    <!-- TOP BAR -->
+    <header class="bg-[#121d20] border-b border-slate-800 h-14 px-4 flex items-center justify-between shrink-0">
+        <!-- Left Section -->
         <div class="flex items-center space-x-4">
-            <div class="w-10 h-10 rounded-lg bg-amber-600/20 border border-amber-500/40 flex items-center justify-center font-bold text-amber-500 tracking-wider text-xl shadow-inner">
-                TK
+            <button class="text-slate-400 hover:text-slate-100"><i class="fa-solid fa-bars text-lg"></i></button>
+            <h1 class="text-lg font-bold tracking-wide text-white flex items-center gap-2">
+                Reservierungen
+                <span class="text-[10px] bg-amber-500/20 text-amber-400 border border-amber-500/30 px-1.5 py-0.5 rounded font-mono">TK Desk</span>
+            </h1>
+        </div>
+
+        <!-- Center Section: Date & Filter -->
+        <div class="flex items-center space-x-3 text-sm">
+            <div class="flex items-center space-x-2 bg-[#0b1315] border border-slate-700/60 px-3 py-1 rounded-md">
+                <button class="text-slate-400 hover:text-white"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                <span class="font-semibold text-slate-100 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-teal-400"></span> Die. 20. Okt.
+                </span>
+                <button class="text-slate-400 hover:text-white"><i class="fa-solid fa-chevron-right text-xs"></i></button>
             </div>
-            <div>
-                <h1 class="text-xl font-bold tracking-tight text-stone-100 flex items-center gap-2">
-                    TK Desk <span class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded font-mono">Saalplan v1.0</span>
-                </h1>
-                <p class="text-xs text-stone-400">Salonplafond Tisch- & Reservierungsmanagement</p>
+
+            <div class="bg-[#0b1315] border border-slate-700/60 px-3 py-1 rounded-md text-slate-300 flex items-center gap-2 cursor-pointer">
+                <span>Ganzer Tag</span>
+                <i class="fa-solid fa-caret-down text-xs text-slate-500"></i>
             </div>
         </div>
 
-        <div class="flex items-center space-x-3 text-xs text-stone-400 bg-stone-900 border border-stone-800 px-3 py-1.5 rounded-full">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Live System</span>
-            <span class="text-stone-600">|</span>
-            <span class="text-stone-300 font-mono">by T0mc1k</span>
+        <!-- Right Section: Actions -->
+        <div class="flex items-center space-x-3">
+            <button class="text-slate-400 hover:text-white p-2"><i class="fa-solid fa-headphones"></i></button>
+            <button class="text-slate-400 hover:text-white p-2"><i class="fa-solid fa-phone"></i></button>
+            <button class="bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold px-4 py-1.5 rounded-md text-sm flex items-center gap-2 shadow-lg transition-all">
+                <span>Neue Reservierung</span>
+                <i class="fa-solid fa-plus"></i>
+            </button>
         </div>
     </header>
 
-    <!-- MAIN DASHBOARD -->
-    <main class="flex-1 p-6 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-4 gap-6">
-        
-        <!-- LEFT: SAALPLAN (3 COLUMNS) -->
-        <div class="lg:col-span-3 bg-stone-950/80 border border-stone-800 rounded-xl p-6 flex flex-col shadow-xl">
-            <div class="flex justify-between items-center mb-6 border-b border-stone-800 pb-4">
-                <div>
-                    <h2 class="text-lg font-semibold text-stone-100">Saalübersicht / Hauptraum</h2>
-                    <p class="text-xs text-stone-400">Klicke auf einen Tisch für Details oder neue Reservierung.</p>
-                </div>
-                <div class="flex gap-2 text-xs">
-                    <span class="flex items-center gap-1 bg-emerald-950/50 border border-emerald-800 text-emerald-400 px-2.5 py-1 rounded"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Frei</span>
-                    <span class="flex items-center gap-1 bg-amber-950/50 border border-amber-800 text-amber-400 px-2.5 py-1 rounded"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Reserviert</span>
-                    <span class="flex items-center gap-1 bg-rose-950/50 border border-rose-800 text-rose-400 px-2.5 py-1 rounded"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Belegt</span>
-                </div>
+    <!-- MAIN CONTENT (SIDEBAR + SAALPLAN) -->
+    <div class="flex-1 flex overflow-hidden">
+
+        <!-- LEFT SIDEBAR: RESERVATIONS LIST -->
+        <aside class="w-80 bg-[#10191c] border-r border-slate-800/80 flex flex-col shrink-0">
+            <!-- Tabs -->
+            <div class="flex border-b border-slate-800 text-xs font-semibold text-slate-400">
+                <button class="flex-1 py-3 text-teal-400 border-b-2 border-teal-400 text-center">Aktuell</button>
+                <button class="flex-1 py-3 hover:text-slate-200 text-center">Fertig</button>
+                <button class="flex-1 py-3 hover:text-slate-200 text-center">Abgesagt</button>
             </div>
 
-            <!-- TABLE GRID -->
-            <div class="grid grid-cols-3 sm:grid-cols-4 gap-4 flex-1">
-                <!-- Table 1 -->
-                <div onclick="selectTable('Tisch 1', 'Frei', '4 Personen')" class="bg-stone-900 border border-emerald-500/40 hover:border-emerald-400 p-4 rounded-xl flex flex-col justify-between cursor-pointer transition-all hover:scale-105 shadow-md">
-                    <div class="flex justify-between text-xs text-stone-400">
-                        <span class="font-mono font-bold text-stone-200">T01</span>
-                        <span>4 P.</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fa-solid fa-chair text-emerald-400 text-xl"></i>
-                        <p class="text-sm font-medium text-stone-200 mt-1">Tisch 1</p>
-                    </div>
-                    <span class="text-[10px] text-center bg-emerald-500/10 text-emerald-400 py-0.5 rounded uppercase font-semibold">Frei</span>
+            <!-- Search & Stats Bar -->
+            <div class="p-3 border-b border-slate-800/60 flex items-center justify-between text-xs text-slate-400">
+                <i class="fa-solid fa-magnifying-glass hover:text-white cursor-pointer"></i>
+                <div class="flex items-center space-x-3">
+                    <span><i class="fa-solid fa-user-group text-slate-500 mr-1"></i> 44</span>
+                    <span><i class="fa-solid fa-chair text-slate-500 mr-1"></i> 150</span>
+                    <span><i class="fa-solid fa-circle-check text-slate-500 mr-1"></i> 46</span>
                 </div>
-
-                <!-- Table 2 -->
-                <div onclick="selectTable('Tisch 2', 'Belegt', '2 Personen (Schmidt)')" class="bg-stone-900 border border-rose-500/40 hover:border-rose-400 p-4 rounded-xl flex flex-col justify-between cursor-pointer transition-all hover:scale-105 shadow-md">
-                    <div class="flex justify-between text-xs text-stone-400">
-                        <span class="font-mono font-bold text-stone-200">T02</span>
-                        <span>2 P.</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fa-solid fa-chair text-rose-400 text-xl"></i>
-                        <p class="text-sm font-medium text-stone-200 mt-1">Tisch 2</p>
-                    </div>
-                    <span class="text-[10px] text-center bg-rose-500/10 text-rose-400 py-0.5 rounded uppercase font-semibold">Belegt</span>
-                </div>
-
-                <!-- Table 3 -->
-                <div onclick="selectTable('Tisch 3', 'Reserviert', '6 Personen (19:30 Uhr - Weber)')" class="bg-stone-900 border border-amber-500/40 hover:border-amber-400 p-4 rounded-xl flex flex-col justify-between cursor-pointer transition-all hover:scale-105 shadow-md">
-                    <div class="flex justify-between text-xs text-stone-400">
-                        <span class="font-mono font-bold text-stone-200">T03</span>
-                        <span>6 P.</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fa-solid fa-chair text-amber-400 text-xl"></i>
-                        <p class="text-sm font-medium text-stone-200 mt-1">Tisch 3</p>
-                    </div>
-                    <span class="text-[10px] text-center bg-amber-500/10 text-amber-400 py-0.5 rounded uppercase font-semibold">Reserviert</span>
-                </div>
-
-                <!-- Table 4 -->
-                <div onclick="selectTable('Tisch 4', 'Frei', '2 Personen')" class="bg-stone-900 border border-emerald-500/40 hover:border-emerald-400 p-4 rounded-xl flex flex-col justify-between cursor-pointer transition-all hover:scale-105 shadow-md">
-                    <div class="flex justify-between text-xs text-stone-400">
-                        <span class="font-mono font-bold text-stone-200">T04</span>
-                        <span>2 P.</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fa-solid fa-chair text-emerald-400 text-xl"></i>
-                        <p class="text-sm font-medium text-stone-200 mt-1">Tisch 4</p>
-                    </div>
-                    <span class="text-[10px] text-center bg-emerald-500/10 text-emerald-400 py-0.5 rounded uppercase font-semibold">Frei</span>
-                </div>
+                <i class="fa-solid fa-sliders hover:text-white cursor-pointer"></i>
             </div>
-        </div>
 
-        <!-- RIGHT: DETAILS & QUICK ACTIONS -->
-        <div class="bg-stone-950/80 border border-stone-800 rounded-xl p-6 flex flex-col shadow-xl">
-            <h3 class="text-sm font-semibold uppercase tracking-wider text-amber-500 mb-4 border-b border-stone-800 pb-2">Tischdetails</h3>
+            <!-- Reservation Cards List -->
+            <div class="flex-1 overflow-y-auto p-2 space-y-2">
+
+                <!-- Card 1 (Active/Selected) -->
+                <div class="bg-[#124d4b] border border-teal-500/50 rounded-lg p-3 text-xs shadow-md">
+                    <div class="flex justify-between text-slate-300 font-medium mb-1">
+                        <span>10:00 - 12:00 • 2 Pax</span>
+                    </div>
+                    <div class="flex justify-between items-start my-1">
+                        <div>
+                            <span class="text-slate-400 text-[10px] block">#H8G7</span>
+                            <h4 class="font-bold text-white text-sm">Andrea Zinsler</h4>
+                        </div>
+                        <span class="text-base font-bold text-teal-200 bg-teal-900/60 px-2 py-0.5 rounded border border-teal-500/30">301</span>
+                    </div>
+                    <div class="mt-3 flex justify-between items-center">
+                        <button class="bg-teal-600/40 hover:bg-teal-600/60 border border-teal-400/40 text-teal-100 px-3 py-1 rounded text-[11px] font-semibold">
+                            Teilw. Platzieren
+                        </button>
+                        <span class="text-[10px] text-teal-300/80 font-mono">22.</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-[#124d4b] border border-teal-500/50 rounded-lg p-3 text-xs shadow-md">
+                    <div class="flex justify-between text-slate-300 font-medium mb-1">
+                        <span>10:00 - 12:00 • 2 Pax</span>
+                    </div>
+                    <div class="flex justify-between items-start my-1">
+                        <div>
+                            <span class="text-slate-400 text-[10px] block">#HY3W</span>
+                            <h4 class="font-bold text-white text-sm">Volodymyr</h4>
+                        </div>
+                        <span class="text-base font-bold text-teal-200 bg-teal-900/60 px-2 py-0.5 rounded border border-teal-500/30">306</span>
+                    </div>
+                    <div class="mt-3 flex justify-between items-center">
+                        <button class="bg-teal-600/40 hover:bg-teal-600/60 border border-teal-400/40 text-teal-100 px-3 py-1 rounded text-[11px] font-semibold">
+                            Teilw. Platzieren
+                        </button>
+                        <span class="text-[10px] text-teal-300/80 font-mono">43.</span>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-[#162226] border border-slate-800 rounded-lg p-3 text-xs hover:border-slate-700 transition-colors">
+                    <div class="flex justify-between text-slate-400 font-medium mb-1">
+                        <span>10:15 - 12:15 • 2 Pax</span>
+                    </div>
+                    <div class="flex justify-between items-start my-1">
+                        <div>
+                            <span class="text-slate-500 text-[10px] block">#I4KV</span>
+                            <h4 class="font-bold text-slate-200 text-sm">Manuel Paal</h4>
+                        </div>
+                        <span class="text-base font-bold text-slate-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">406</span>
+                    </div>
+                    <div class="mt-3 flex justify-between items-center">
+                        <button class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1 rounded text-[11px] border border-slate-700">
+                            Teilw. Platzieren
+                        </button>
+                        <span class="text-[10px] text-rose-400 font-mono">45.</span>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-[#162226] border border-slate-800 rounded-lg p-3 text-xs hover:border-slate-700 transition-colors">
+                    <div class="flex justify-between text-slate-400 font-medium mb-1">
+                        <span>10:30 - 12:30 • 2 Pax</span>
+                    </div>
+                    <div class="flex justify-between items-start my-1">
+                        <div>
+                            <span class="text-slate-500 text-[10px] block">#JSX3</span>
+                            <h4 class="font-bold text-slate-200 text-sm">Denise Ghard</h4>
+                        </div>
+                        <span class="text-base font-bold text-slate-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">401</span>
+                    </div>
+                    <div class="mt-3 flex justify-between items-center">
+                        <button class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1 rounded text-[11px] border border-slate-700">
+                            Teilw. Platzieren
+                        </button>
+                        <span class="text-[10px] text-rose-400 font-mono">23.</span>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+
+        <!-- RIGHT: FLOOR PLAN (SAALPLAN CANVAS) -->
+        <main class="flex-1 bg-[#0b1315] relative p-8 overflow-auto flex flex-col justify-between">
             
-            <div id="tableDetails" class="flex-1 flex flex-col justify-center text-center text-stone-400 text-sm">
-                <i class="fa-solid fa-hand-pointer text-3xl mb-2 text-stone-600"></i>
-                <p>Wähle einen Tisch im Saalplan aus, um Details und Status anzuzeigen.</p>
-            </div>
+            <!-- CANVAS AREA WITH TABLES -->
+            <div class="relative w-full h-full min-h-[600px]">
 
-            <div class="mt-4 pt-4 border-t border-stone-800">
-                <button onclick="alert('Neue Reservierung hinzufügen - Modul folgt')" class="w-full bg-amber-600 hover:bg-amber-500 text-stone-950 font-semibold py-2.5 px-4 rounded-lg text-xs transition-colors shadow-lg">
-                    <i class="fa-solid fa-plus mr-1"></i> Neue Reservierung
-                </button>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-stone-950 border-t border-stone-800 px-6 py-3 text-center text-xs text-stone-500 flex justify-between items-center">
-        <span>&copy; 2026 Salonplafond Desk</span>
-        <span class="font-mono text-stone-400">Developed by T0mc1k</span>
-    </footer>
-
-    <!-- SCRIPT FOR INTERACTION -->
-    <script>
-        function selectTable(name, status, details) {
-            const container = document.getElementById('tableDetails');
-            let statusColor = 'text-emerald-400';
-            if(status === 'Belegt') statusColor = 'text-rose-400';
-            if(status === 'Reserviert') statusColor = 'text-amber-400';
-
-            container.innerHTML = `
-                <div class="text-left space-y-3 bg-stone-900 p-4 rounded-lg border border-stone-800">
-                    <div>
-                        <span class="text-xs text-stone-500 uppercase">Ausgewählt</span>
-                        <h4 class="text-base font-bold text-stone-100">${name}</h4>
+                <!-- Block of Tables (102 - 105) -->
+                <div class="absolute top-20 left-10 flex space-x-3">
+                    <!-- Table 102 -->
+                    <div class="flex flex-col items-center">
+                        <div class="bg-teal-400 text-slate-950 font-bold text-[10px] px-2 py-0.5 rounded-t w-full text-center">19:00</div>
+                        <div class="w-14 h-12 bg-slate-700 border border-slate-600 rounded-sm flex items-center justify-center font-bold text-white shadow-lg">102</div>
+                        <div class="bg-amber-600 text-white text-[9px] px-1 rounded-b w-full text-center font-semibold">Sperren</div>
                     </div>
-                    <div>
-                        <span class="text-xs text-stone-500 uppercase">Status</span>
-                        <p class="text-sm font-semibold ${statusColor}">${status}</p>
+                    <!-- Table 103 -->
+                    <div class="flex flex-col items-center">
+                        <div class="bg-teal-400 text-slate-950 font-bold text-[10px] px-2 py-0.5 rounded-t w-full text-center">19:00</div>
+                        <div class="w-14 h-12 bg-slate-700 border border-slate-600 rounded-sm flex items-center justify-center font-bold text-white shadow-lg">103</div>
+                        <div class="bg-amber-600 text-white text-[9px] px-1 rounded-b w-full text-center font-semibold">10–16</div>
                     </div>
-                    <div>
-                        <span class="text-xs text-stone-500 uppercase">Information</span>
-                        <p class="text-xs text-stone-300">${details}</p>
+                    <!-- Table 104 -->
+                    <div class="flex flex-col items-center">
+                        <div class="bg-teal-400 text-slate-950 font-bold text-[10px] px-2 py-0.5 rounded-t w-full text-center">19:00</div>
+                        <div class="w-14 h-12 bg-slate-700 border border-slate-600 rounded-sm flex items-center justify-center font-bold text-white shadow-lg">104</div>
+                        <div class="bg-amber-600 text-white text-[9px] px-1 rounded-b w-full text-center font-semibold">10–16</div>
+                    </div>
+                    <!-- Table 105 -->
+                    <div class="flex flex-col items-center">
+                        <div class="bg-teal-400 text-slate-950 font-bold text-[10px] px-2 py-0.5 rounded-t w-full text-center">19:00</div>
+                        <div class="w-14 h-12 bg-slate-700 border border-slate-600 rounded-sm flex items-center justify-center font-bold text-white shadow-lg">105</div>
+                        <div class="bg-amber-600 text-white text-[9px] px-1 rounded-b w-full text-center font-semibold">10–16</div>
                     </div>
                 </div>
-            `;
-        }
-    </script>
+
+                <!-- Table 307 & 308 (Center Right) -->
+                <div class="absolute top-10 left-[420px] flex space-x-6">
+                    <div class="flex flex-col items-center">
+                        <div class="bg-teal-400 text-slate-950 font-bold text-[10px] px-2 py-0.5 rounded-t w-full text-center">10:00</div>
+                        <div class="w-14 h-12 bg-slate-700 border border-slate-600 rounded-sm flex items-center justify-center font-bold text-white shadow-lg">307</div>
+                        <div class="bg-teal-400 text-slate-950 font-bold text-[10px] px-2 py-0.5 rounded-b w-full text-center">18:45</div>
+                        <span class="text-[10px] text-slate-300 mt-1 bg-slate-900 px-1 rounded">4 Britta Stef</span>
+                    </div>
+
+                    <div class="flex flex-col items-center">
+                        <div class="bg-teal-400 text-slate-950 font-bold text-[10px] px-2 py-0.5 rounded-t w-full text-center">11:00</div>
+                        <div class="w-14 h-12 bg-slate-700 border border-slate-600 rounded-sm flex items-center justify-center font-bold text-white shadow-lg">308</div>
+                        <div class="bg-teal-400 text-slate-950 font-bold text-[10px] px-2 py-0.5 rounded-b w-full text-center">18:45</div>
+                        <span class="text-[10px] text-slate-300 mt-1 bg-slate-900 px-1 rounded">4 Britta Steff</span>
+                    </div>
+                </div>
+
+                <!-- Round Table 310 -->
+                <div class="absolute top-44 left-[520px] flex flex-col items-center">
+                    <div class="bg-teal-400 text-slate-950 font-bold text-[10px] px-2 py-0.5 rounded-t shadow">13:15</div>
+                    <div class="w-16 h-16 bg-slate-700 border border-slate-600 rounded-full flex items-center justify-center font-bold text-white shadow-xl my-1">
+                        310
+                    </div>
+                    <div class="bg-teal-400 text-slate-950 font-bold text-[10px] px-2 py-0.5 rounded-b shadow">17:45</div>
+                    <span class="text-[10px] text-slate-300 mt-1 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">5 Hannes Royer</span>
+                </div>
+
+                <!-- Table 403 (Red/Occupied) -->
+                <div class="absolute top-64 left-[640px] flex flex-col items-center">
+                    <div class="bg-teal-400 text-slate-950 font-bold text-[10px] px-2 py-0.5 rounded-t shadow">13:00</div>
+                    <div class="w-14 h-12 bg-rose-900/80 border border-rose-500 rounded-sm flex items-center justify-center font-bold text-white shadow-xl my-0.5">
+                        403
+                    </div>
+                    <div class="bg-teal-400 text-slate-950 font-bold text-[10px] px-2 py-0.5 rounded-b shadow">18:00</div>
+                </div>
+
+            </div>
+
+            <!-- BOTTOM AREA SELECTOR -->
+            <div class="flex items-center justify-between pt-4 border-t border-slate-800/80">
+                <div class="flex items-center space-x-3">
+                    <span class="text-xs font-semibold text-slate-400">Bereich</span>
+                    <div class="bg-[#121d20] border border-slate-700 px-3 py-1.5 rounded-md text-xs text-white flex items-center gap-2 cursor-pointer">
+                        <span>Restaurant</span>
+                        <i class="fa-solid fa-caret-down text-slate-400"></i>
+                    </div>
+                    <button class="text-slate-500 hover:text-white p-1"><i class="fa-solid fa-lock text-xs"></i></button>
+                </div>
+
+                <div class="text-xs text-slate-500 font-mono">
+                    Salonplafond Desk • T0mc1k Edition
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
 </body>
 </html>
