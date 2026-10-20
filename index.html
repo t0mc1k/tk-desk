@@ -106,8 +106,6 @@
 
         <!-- Right: Animated Original Salonplafond Yellow Cube Logo & Action Button -->
         <div class="flex items-center space-x-4">
-            
-            <!-- Authentic Salonplafond Animated Yellow Cube Logo -->
             <div class="relative w-10 h-10 bg-[#fabb15] rounded-xl flex items-center justify-center font-black text-stone-950 shadow-lg salon-cube-glow cursor-pointer overflow-hidden transition-all hover:scale-105">
                 <div id="cubeContent" class="flex flex-col items-center justify-center text-stone-950 font-bold leading-none icon-swap">
                     <span class="text-[8px] tracking-tighter uppercase font-mono">—</span>
@@ -135,7 +133,7 @@
 
             <div class="px-4 py-2.5 border-b border-stone-800/60 flex items-center justify-between text-[11px] text-stone-400 bg-stone-950/40">
                 <span class="flex items-center gap-1.5"><i class="fa-solid fa-user-group text-amber-500/80"></i> <strong id="totalPax" class="text-stone-200">0</strong> Gäste</span>
-                <span class="flex items-center gap-1.5"><i class="fa-solid fa-chair text-amber-500/80"></i> <strong id="totalTables" class="text-stone-200">0/24</strong> Tische</span>
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-chair text-amber-500/80"></i> <strong id="totalTables" class="text-stone-200">0/32</strong> Tische</span>
             </div>
 
             <div id="reservationList" class="flex-1 overflow-y-auto p-3 space-y-2.5"></div>
@@ -156,8 +154,8 @@
                 </div>
             </div>
 
-            <!-- CANVAS FOR FIXED TABLES -->
-            <div id="floorPlanCanvas" class="relative w-full h-[680px] border border-stone-800/60 rounded-2xl bg-stone-900/30 backdrop-blur-sm overflow-auto shadow-inner p-4"></div>
+            <!-- CANVAS FOR ALL FIXED TABLES FROM GASTRONAUT -->
+            <div id="floorPlanCanvas" class="relative w-full h-[720px] border border-stone-800/60 rounded-2xl bg-stone-900/30 backdrop-blur-sm overflow-auto shadow-inner p-4"></div>
 
             <!-- FOOTER INFO -->
             <div class="flex items-center justify-between mt-3 text-xs text-stone-500 shrink-0">
@@ -216,7 +214,7 @@
 
     <!-- LOGIC SCRIPT -->
     <script>
-        // Rotating content inside yellow Salonplafond cube (Ö symbol, Chef hat, Plate/Utensils, Service Bell)
+        // Rotating cube content
         const cubeIcons = [
             `<div class="flex flex-col items-center justify-center leading-none"><span class="text-[8px]">—</span><span class="text-base font-extrabold leading-none my-[-2px]">Ö</span><span class="text-[7px]">•</span></div>`,
             `<i class="fa-solid fa-kitchen-set text-base"></i>`,
@@ -224,48 +222,66 @@
             `<i class="fa-solid fa-bell-concierge text-base"></i>`
         ];
         let currentCubeIndex = 0;
-
         setInterval(() => {
             currentCubeIndex = (currentCubeIndex + 1) % cubeIcons.length;
             const cubeElem = document.getElementById('cubeContent');
-            if (cubeElem) {
-                cubeElem.innerHTML = cubeIcons[currentCubeIndex];
-            }
+            if (cubeElem) cubeElem.innerHTML = cubeIcons[currentCubeIndex];
         }, 3500);
 
-        // Tables configuration matching Gastronaut floor plan layout
+        // FULL GASTRONAUT TABLE CONFIGURATION INCLUDING ALL MISSING TABLES
         let tablesData = [
-            { id: '101', shape: 'rect', top: 20, left: 260, pax: 4, res: null },
-            { id: '102', shape: 'rect', top: 160, left: 30, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: 'Sperren', badgeBg: 'bg-rose-600' } },
-            { id: '103', shape: 'rect', top: 160, left: 100, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
-            { id: '104', shape: 'rect', top: 160, left: 170, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
-            { id: '105', shape: 'rect', top: 160, left: 240, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            // Top Table
+            { id: '101', shape: 'rect', top: 15, left: 160, pax: 4, res: null },
 
-            { id: '109', shape: 'rect', top: 350, left: 30, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
-            { id: '108', shape: 'rect', top: 350, left: 100, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
-            { id: '107', shape: 'rect', top: 350, left: 170, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
-            { id: '106', shape: 'rect', top: 350, left: 240, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            // Left Block Top (102, 103, 104, 105)
+            { id: '102', shape: 'rect', top: 220, left: 15, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: 'Sperren', badgeBg: 'bg-rose-600' } },
+            { id: '103', shape: 'rect', top: 220, left: 80, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: '104', shape: 'rect', top: 220, left: 145, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: '105', shape: 'rect', top: 220, left: 210, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
 
-            { id: '201', shape: 'rect', top: 200, left: 330, pax: 4, res: { name: 'Karlien Klo...', timeStart: '19:00', timeEnd: '21:00', pax: 3, badge: '10-16', badgeBg: 'bg-amber-600' } },
-            { id: '205', shape: 'rect', top: 310, left: 330, pax: 4, res: { name: 'Nikola Kob...', timeStart: '17:30', timeEnd: '20:00', pax: 3, badge: '10-16', badgeBg: 'bg-amber-600' } },
-            { id: '210', shape: 'rect', top: 420, left: 330, pax: 4, res: { name: 'Andrea Zin...', timeStart: '17:30', timeEnd: '20:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            // Left Block Bottom (109, 108, 107, 106)
+            { id: '109', shape: 'rect', top: 430, left: 15, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: '108', shape: 'rect', top: 430, left: 80, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: '107', shape: 'rect', top: 430, left: 145, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: '106', shape: 'rect', top: 430, left: 210, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
 
-            { id: '307', shape: 'rect', top: 40, left: 450, pax: 2, res: { name: 'Volodymyr', timeStart: '10:00', timeEnd: '12:00', pax: 2, badge: '18:45', badgeBg: 'bg-teal-500 text-slate-950' } },
-            { id: '308', shape: 'rect', top: 40, left: 520, pax: 2, res: { name: 'Britta Stef', timeStart: '11:00', timeEnd: '18:45', pax: 4, badge: '18:45', badgeBg: 'bg-teal-500 text-slate-950' } },
-            { id: '305', shape: 'rect', top: 120, left: 450, pax: 2, res: { name: 'Josef Toman', timeStart: '11:30', timeEnd: '13:30', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            // Large Long Table at the bottom (Big T-Systems)
+            { id: 'T-Sys Big', shape: 'rect', top: 600, left: 75, width: 150, pax: 12, res: { name: 'T-Systems Int.', timeStart: '19:00', timeEnd: '22:00', pax: 12, badge: '10-16', badgeBg: 'bg-amber-600' } },
 
-            { id: '310', shape: 'circle', top: 200, left: 580, pax: 5, res: { name: 'Hannes Royer', timeStart: '13:15', timeEnd: '17:45', pax: 5, badge: 'Platziert', badgeBg: 'bg-teal-500 text-slate-950' } },
-            { id: '311', shape: 'circle', top: 350, left: 580, pax: 6, res: { name: 'Fridolin Egerer', timeStart: '11:30', timeEnd: '18:00', pax: 6, badge: 'Platziert', badgeBg: 'bg-teal-500 text-slate-950' } },
+            // Middle Column 1 (201, 205, 210)
+            { id: '201', shape: 'rect', top: 250, left: 295, pax: 4, res: { name: 'Karlien Klo...', timeStart: '19:00', timeEnd: '21:00', pax: 3, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: '205', shape: 'rect', top: 350, left: 295, pax: 4, res: { name: 'Nikola Kob...', timeStart: '17:30', timeEnd: '20:00', pax: 3, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: '210', shape: 'rect', top: 450, left: 295, pax: 4, res: { name: 'Andrea Zin...', timeStart: '17:30', timeEnd: '20:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
 
-            { id: '404', shape: 'rect', top: 120, left: 700, pax: 8, res: { name: 'Heda Sunts...', timeStart: '13:00', timeEnd: '19:00', pax: 8, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
-            { id: '403', shape: 'rect', top: 280, left: 700, pax: 4, res: { name: 'Denise Ghard', timeStart: '13:00', timeEnd: '18:00', pax: 4, badge: 'Belegt', badgeBg: 'bg-rose-600 text-white' } },
+            // Middle Column 2 (307, 308, 305, 306, 303, 302, 301)
+            { id: '307', shape: 'rect', top: 20, left: 420, pax: 2, res: { name: 'Volodymyr', timeStart: '10:00', timeEnd: '12:00', pax: 2, badge: '18:45', badgeBg: 'bg-teal-500 text-slate-950' } },
+            { id: '308', shape: 'rect', top: 20, left: 485, pax: 2, res: { name: 'Britta Stef', timeStart: '11:00', timeEnd: '18:45', pax: 4, badge: '18:45', badgeBg: 'bg-teal-500 text-slate-950' } },
+            { id: '305', shape: 'rect', top: 120, left: 420, pax: 2, res: { name: 'Josef Toman', timeStart: '11:30', timeEnd: '18:00', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '306', shape: 'rect', top: 210, left: 420, pax: 2, res: { name: 'Karlien Klo...', timeStart: '11:00', timeEnd: '17:30', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '303', shape: 'rect', top: 300, left: 420, pax: 2, res: { name: 'Nikola Kob...', timeStart: '17:30', timeEnd: '20:00', pax: 3, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '302', shape: 'rect', top: 390, left: 420, pax: 2, res: { name: 'Nikola Kob...', timeStart: '17:30', timeEnd: '20:00', pax: 3, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '301', shape: 'rect', top: 475, left: 420, pax: 2, res: { name: 'Andrea Zin...', timeStart: '10:00', timeEnd: '12:30', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
 
-            { id: '407', shape: 'circle', top: 40, left: 810, pax: 4, res: { name: 'Vivien', timeStart: '12:15', timeEnd: '17:30', pax: 4, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
-            { id: '408', shape: 'circle', top: 240, left: 810, pax: 2, res: { name: 'Benedikt Bi...', timeStart: '12:30', timeEnd: '17:30', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            // Round Tables Center (310, 311)
+            { id: '310', shape: 'circle', top: 220, left: 555, pax: 5, res: { name: 'Hannes Royer', timeStart: '13:15', timeEnd: '17:45', pax: 5, badge: 'Platziert', badgeBg: 'bg-teal-500 text-slate-950' } },
+            { id: '311', shape: 'circle', top: 390, left: 555, pax: 6, res: { name: 'Fridolin Egerer', timeStart: '11:30', timeEnd: '18:00', pax: 6, badge: 'Platziert', badgeBg: 'bg-teal-500 text-slate-950' } },
 
-            { id: '666', shape: 'rect', top: 520, left: 580, pax: 3, res: { name: 'Rene', timeStart: '18:15', timeEnd: '20:15', pax: 3, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
-            { id: '410', shape: 'rect', top: 520, left: 700, pax: 2, res: { name: 'Keiko Ishihara', timeStart: '12:30', timeEnd: '19:15', pax: 1, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
-            { id: '411', shape: 'rect', top: 520, left: 810, pax: 2, res: { name: 'katarina', timeStart: '13:00', timeEnd: '15:00', pax: 1, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } }
+            // Column Right 1 (405, 404, 403, 402, 401)
+            { id: '405', shape: 'rect', top: 120, left: 680, pax: 2, res: { name: 'Matthias C...', timeStart: '12:30', timeEnd: '18:30', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '404', shape: 'rect', top: 210, left: 680, pax: 8, res: { name: 'Heda Sunts...', timeStart: '13:00', timeEnd: '19:00', pax: 8, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '403', shape: 'rect', top: 310, left: 680, pax: 4, res: { name: 'Belegt', timeStart: '13:00', timeEnd: '18:00', pax: 4, badge: 'Belegt', badgeBg: 'bg-rose-600 text-white' } },
+            { id: '402', shape: 'rect', top: 400, left: 680, pax: 2, res: { name: 'Denise Ghard', timeStart: '13:00', timeEnd: '18:00', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '401', shape: 'rect', top: 480, left: 680, pax: 2, res: { name: 'Denise Ghard', timeStart: '10:30', timeEnd: '13:00', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+
+            // Column Right 2 Round & Rect (407, 408, 409)
+            { id: '407', shape: 'circle', top: 20, left: 790, pax: 4, res: { name: 'Vivien', timeStart: '12:15', timeEnd: '17:30', pax: 4, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '408', shape: 'circle', top: 260, left: 790, pax: 2, res: { name: 'Benedikt Bi...', timeStart: '12:30', timeEnd: '17:30', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '409', shape: 'circle', top: 420, left: 790, pax: 2, res: { name: 'Karl Grasl', timeStart: '12:30', timeEnd: '19:30', pax: 2, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+
+            // Bottom Row (666, 410, 411)
+            { id: '666', shape: 'rect', top: 580, left: 555, pax: 3, res: { name: 'Rene', timeStart: '18:15', timeEnd: '20:15', pax: 3, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '410', shape: 'rect', top: 580, left: 680, pax: 2, res: { name: 'Keiko Ishihara', timeStart: '12:30', timeEnd: '19:15', pax: 1, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } },
+            { id: '411', shape: 'rect', top: 580, left: 790, pax: 2, res: { name: 'katarina', timeStart: '13:00', timeEnd: '15:00', pax: 1, badge: 'Bestätigt', badgeBg: 'bg-teal-600' } }
         ];
 
         let selectedDate = new Date(2026, 9, 20);
@@ -278,12 +294,13 @@
             tablesData.forEach(table => {
                 const isCircle = table.shape === 'circle';
                 const hasRes = table.res !== null;
+                const customWidth = table.width ? `w-[${table.width}px]` : (isCircle ? 'w-16 h-16' : 'w-14 h-14');
 
                 const node = document.createElement('div');
                 node.id = `table-node-${table.id}`;
                 node.setAttribute('draggable', 'true');
-                node.className = `table-node absolute flex flex-col items-center justify-between p-1.5 cursor-grab shadow-lg ${
-                    isCircle ? 'w-20 h-20 rounded-full' : 'w-16 h-16 rounded-xl'
+                node.className = `table-node absolute flex flex-col items-center justify-between p-1 cursor-grab shadow-lg ${
+                    isCircle ? 'w-16 h-16 rounded-full' : (table.width ? 'h-14 rounded-xl' : 'w-14 h-14 rounded-xl')
                 } ${
                     hasRes 
                         ? (table.res.badge === 'Belegt' ? 'bg-rose-950/80 border-2 border-rose-500' : 'bg-slate-800/90 border-2 border-teal-400')
@@ -292,14 +309,15 @@
 
                 node.style.top = `${table.top}px`;
                 node.style.left = `${table.left}px`;
+                if(table.width) node.style.width = `${table.width}px`;
 
-                let resHeader = hasRes ? `<div class="bg-teal-400 text-slate-950 font-bold text-[9px] px-1 rounded-t w-full text-center">${table.res.timeStart}</div>` : '';
-                let resFooter = hasRes ? `<div class="text-[9px] px-1 rounded-b w-full text-center font-semibold ${table.res.badgeBg || 'bg-teal-500 text-slate-950'}">${table.res.badge || table.res.timeEnd}</div>` : '';
-                let resName = hasRes ? `<span class="text-[10px] text-slate-200 font-bold truncate max-w-full px-1 bg-slate-950/80 rounded my-0.5">${table.res.name}</span>` : `<span class="text-[9px] text-slate-500 italic">Frei</span>`;
+                let resHeader = hasRes ? `<div class="bg-teal-400 text-slate-950 font-bold text-[8px] px-1 rounded-t w-full text-center leading-none py-0.5">${table.res.timeStart}</div>` : '';
+                let resFooter = hasRes ? `<div class="text-[8px] px-1 rounded-b w-full text-center font-semibold leading-none py-0.5 ${table.res.badgeBg || 'bg-teal-500 text-slate-950'}">${table.res.badge || table.res.timeEnd}</div>` : '';
+                let resName = hasRes ? `<span class="text-[9px] text-slate-200 font-bold truncate max-w-full px-1 bg-slate-950/80 rounded">${table.res.name}</span>` : `<span class="text-[8px] text-slate-500 italic">Frei</span>`;
 
                 node.innerHTML = `
                     ${resHeader}
-                    <div class="font-bold text-xs text-white my-auto flex items-center gap-1">
+                    <div class="font-bold text-[11px] text-white my-auto flex items-center gap-1 leading-none">
                         ${table.id}
                     </div>
                     ${resName}
