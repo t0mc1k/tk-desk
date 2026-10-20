@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TK Desk – Salonplafond Saalplan v1.0.0.2-beta</title>
+    <title>TK Desk – Salonplafond Saalplan v1.0.0.4-beta</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -90,7 +90,7 @@
             <div class="text-center space-y-2">
                 <h2 class="text-xl font-bold tracking-widest text-stone-100 uppercase">Salonplafond</h2>
                 <div class="welcome-text text-xs text-amber-400 font-medium">Herzlich willkommen beim TK Desk Reservierungssystem</div>
-                <p class="text-[11px] text-amber-500 font-mono tracking-wider font-semibold">v1.0.0.2-beta</p>
+                <p class="text-[11px] text-amber-500 font-mono tracking-wider font-semibold">v1.0.0.4-beta</p>
             </div>
         </div>
     </div>
@@ -101,7 +101,7 @@
             <h1 class="text-lg font-bold tracking-tight text-stone-100 flex items-center gap-2.5">
                 Reservierungen
                 <span class="bg-amber-950/40 border border-amber-600/50 text-amber-500 font-bold px-2.5 py-0.5 rounded-lg text-[11px] tracking-wider shadow-inner flex items-center gap-1">
-                    <span class="text-amber-400">TK</span> <span class="text-amber-500">Desk</span> <span class="text-[9px] text-stone-400 font-mono ml-1">v1.0.0.2</span>
+                    <span class="text-amber-400">TK</span> <span class="text-amber-500">Desk</span> <span class="text-[9px] text-stone-400 font-mono ml-1">v1.0.0.4</span>
                 </span>
             </h1>
         </div>
@@ -198,7 +198,7 @@
             <div id="floorPlanCanvas" class="relative w-full flex-1 border border-stone-800/60 rounded-xl bg-stone-900/30 backdrop-blur-sm overflow-hidden shadow-inner p-2"></div>
 
             <div class="flex items-center justify-between mt-2 text-[10px] text-stone-500 shrink-0">
-                <span class="font-mono">TK Desk • T0mc1k Edition v1.0.0.2-beta</span>
+                <span class="font-mono">TK Desk • T0mc1k Edition v1.0.0.4-beta</span>
                 <span class="text-stone-400 font-semibold">Salonplafond Vienna</span>
             </div>
         </main>
@@ -278,7 +278,7 @@
             { id: '107', shape: 'rect', top: 300, left: 126, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
             { id: '106', shape: 'rect', top: 300, left: 184, pax: 2, res: { name: 'T-System', timeStart: '19:00', timeEnd: '21:00', pax: 2, badge: '10-16', badgeBg: 'bg-amber-600' } },
 
-            { id: 'T-Sys Big', shape: 'rect', top: 430, left: 55, width: 130, pax: 12, res: { name: 'T-Systems Int.', timeStart: '19:00', timeEnd: '22:00', pax: 12, badge: '10-16', badgeBg: 'bg-amber-600' } },
+            { id: 'Big-Sys', shape: 'rect', top: 430, left: 55, width: 130, pax: 12, res: { name: 'T-Systems Int.', timeStart: '19:00', timeEnd: '22:00', pax: 12, badge: '10-16', badgeBg: 'bg-amber-600' } },
 
             { id: '201', shape: 'rect', top: 170, left: 255, pax: 4, res: { name: 'Karlien Klo...', timeStart: '19:00', timeEnd: '21:00', pax: 3, badge: '10-16', badgeBg: 'bg-amber-600' } },
             { id: '205', shape: 'rect', top: 250, left: 255, pax: 4, res: { name: 'Nikola Kob...', timeStart: '17:30', timeEnd: '20:00', pax: 3, badge: '10-16', badgeBg: 'bg-amber-600' } },
@@ -322,7 +322,7 @@
                 const hasRes = table.res !== null;
 
                 const node = document.createElement('div');
-                node.id = `table-node-${table.id.replace(/\s+/g, '-')}`;
+                node.id = `table-node-${table.id}`;
                 node.setAttribute('draggable', 'true');
                 node.className = `table-node absolute flex flex-col items-center justify-between p-1 cursor-grab shadow-lg ${
                     isCircle ? 'w-13 h-13 rounded-full' : (table.width ? 'h-12 rounded-xl' : 'w-12 h-12 rounded-lg')
@@ -343,7 +343,7 @@
                 node.innerHTML = `
                     ${resHeader}
                     <div class="font-bold text-[10px] text-white my-auto flex items-center gap-1 leading-none">
-                        ${table.id}
+                        ${table.id === 'Big-Sys' ? 'T-Sys Big' : table.id}
                     </div>
                     ${resName}
                     ${resFooter}
@@ -399,14 +399,13 @@
             }
         }
 
-        // FLASH / HIGHLIGHT TABLE WHEN CLICKING GUEST IN SIDEBAR
+        // DYNAMICALLY HIGHLIGHTS CURRENT TABLE OF THE GUEST
         function highlightTable(tableId) {
-            const safeId = tableId.replace(/\s+/g, '-');
-            const tableElement = document.getElementById(`table-node-${safeId}`);
+            const tableElement = document.getElementById(`table-node-${tableId}`);
             if (tableElement) {
                 tableElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
                 tableElement.classList.remove('highlight-pulse');
-                void tableElement.offsetWidth; // trigger reflow
+                void tableElement.offsetWidth;
                 tableElement.classList.add('highlight-pulse');
             }
         }
@@ -423,11 +422,12 @@
 
                 const card = document.createElement('div');
                 card.className = 'bg-stone-950 border border-stone-800 hover:border-amber-500/60 rounded-xl p-2.5 text-xs transition-all shadow-md group cursor-pointer';
+                // Dynamically binds click event to the table ID where the guest currently sits
                 card.onclick = () => highlightTable(t.id);
                 card.innerHTML = `
                     <div class="flex justify-between text-stone-400 text-[10px] font-mono mb-0.5">
                         <span>${t.res.timeStart} - ${t.res.timeEnd || '21:00'} • ${t.res.pax} Pax</span>
-                        <span class="text-amber-500 font-bold">Tisch ${t.id}</span>
+                        <span class="text-amber-500 font-bold">Tisch ${t.id === 'Big-Sys' ? 'T-Sys Big' : t.id}</span>
                     </div>
                     <div class="flex justify-between items-center my-0.5">
                         <h4 class="font-bold text-stone-100 text-xs group-hover:text-amber-400 transition-colors">${t.res.name}</h4>
@@ -448,7 +448,7 @@
             tablesData.forEach(t => {
                 const opt = document.createElement('option');
                 opt.value = t.id;
-                opt.innerText = `Tisch ${t.id} (${t.pax} Pax) ${t.res ? '- Belegt' : '- Frei'}`;
+                opt.innerText = `Tisch ${t.id === 'Big-Sys' ? 'T-Sys Big' : t.id} (${t.pax} Pax) ${t.res ? '- Belegt' : '- Frei'}`;
                 select.appendChild(opt);
             });
         }
