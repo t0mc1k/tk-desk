@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TK Desk – Salonplafond Saalplan v1.0.0.4-beta</title>
+    <title>TK Desk – Salonplafond Saalplan v1.0.0.5-beta</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -90,7 +90,7 @@
             <div class="text-center space-y-2">
                 <h2 class="text-xl font-bold tracking-widest text-stone-100 uppercase">Salonplafond</h2>
                 <div class="welcome-text text-xs text-amber-400 font-medium">Herzlich willkommen beim TK Desk Reservierungssystem</div>
-                <p class="text-[11px] text-amber-500 font-mono tracking-wider font-semibold">v1.0.0.4-beta</p>
+                <p class="text-[11px] text-amber-500 font-mono tracking-wider font-semibold">v1.0.0.5-beta</p>
             </div>
         </div>
     </div>
@@ -101,7 +101,7 @@
             <h1 class="text-lg font-bold tracking-tight text-stone-100 flex items-center gap-2.5">
                 Reservierungen
                 <span class="bg-amber-950/40 border border-amber-600/50 text-amber-500 font-bold px-2.5 py-0.5 rounded-lg text-[11px] tracking-wider shadow-inner flex items-center gap-1">
-                    <span class="text-amber-400">TK</span> <span class="text-amber-500">Desk</span> <span class="text-[9px] text-stone-400 font-mono ml-1">v1.0.0.4</span>
+                    <span class="text-amber-400">TK</span> <span class="text-amber-500">Desk</span> <span class="text-[9px] text-stone-400 font-mono ml-1">v1.0.0.5</span>
                 </span>
             </h1>
         </div>
@@ -163,7 +163,7 @@
     </header>
 
     <!-- MAIN WORKSPACE -->
-    <div class="flex-1 flex overflow-hidden">
+    <div class="flex-1 flex overflow-hidden relative">
 
         <!-- LEFT SIDEBAR -->
         <aside class="w-72 bg-stone-900/60 border-r border-stone-800/80 flex flex-col shrink-0 backdrop-blur-sm">
@@ -191,17 +191,60 @@
                     <button class="bg-stone-900 border border-stone-800 text-stone-400 hover:text-stone-200 px-2.5 py-0.5 rounded-md text-[11px] transition-colors">Bar</button>
                 </div>
                 <div class="text-[10px] text-stone-500 bg-stone-900/80 px-2.5 py-0.5 rounded-md border border-stone-800">
-                    <i class="fa-solid fa-hand-pointer text-amber-500 mr-1"></i> Auf Gast klicken = Tisch blinkt • Zum Tauschen ziehen
+                    <i class="fa-solid fa-hand-pointer text-amber-500 mr-1"></i> Auf Gast/Stol klicken = Detail-Menü + Blinken • Zum Tauschen ziehen
                 </div>
             </div>
 
             <div id="floorPlanCanvas" class="relative w-full flex-1 border border-stone-800/60 rounded-xl bg-stone-900/30 backdrop-blur-sm overflow-hidden shadow-inner p-2"></div>
 
             <div class="flex items-center justify-between mt-2 text-[10px] text-stone-500 shrink-0">
-                <span class="font-mono">TK Desk • T0mc1k Edition v1.0.0.4-beta</span>
+                <span class="font-mono">TK Desk • T0mc1k Edition v1.0.0.5-beta</span>
                 <span class="text-stone-400 font-semibold">Salonplafond Vienna</span>
             </div>
         </main>
+
+        <!-- RIGHT SLIDE-OUT DETAIL PANEL (GASTRONAUT STYLE) -->
+        <div id="detailDrawer" class="hidden w-80 bg-stone-900 border-l border-stone-800 flex flex-col shadow-2xl z-40 transition-all">
+            <div class="p-4 border-b border-stone-800 flex justify-between items-center bg-stone-950/60">
+                <h3 id="drawerGuestName" class="font-bold text-sm text-stone-100 truncate">Gast Name</h3>
+                <button onclick="closeDrawer()" class="text-stone-400 hover:text-white p-1"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="flex border-b border-stone-800 text-xs font-medium text-stone-400 px-4 bg-stone-950/30">
+                <button class="py-2.5 text-amber-400 border-b-2 border-amber-500 font-semibold mr-4">Details</button>
+                <button class="py-2.5 hover:text-stone-200 mr-4">Kontakt</button>
+                <button class="py-2.5 hover:text-stone-200">Historie</button>
+            </div>
+
+            <!-- Content -->
+            <div class="p-4 space-y-4 flex-1 overflow-y-auto text-xs text-stone-300">
+                <div class="bg-stone-950 p-3 rounded-xl border border-stone-800 space-y-2">
+                    <div class="flex justify-between"><span class="text-stone-500">Tisch:</span> <strong id="drawerTableId" class="text-amber-400">-</strong></div>
+                    <div class="flex justify-between"><span class="text-stone-500">Uhrzeit:</span> <strong id="drawerTime">-</strong></div>
+                    <div class="flex justify-between"><span class="text-stone-500">Personen (Pax):</span> <strong id="drawerPax">-</strong></div>
+                    <div class="flex justify-between"><span class="text-stone-500">Status:</span> <strong class="text-teal-400">Normal</strong></div>
+                    <div class="flex justify-between"><span class="text-stone-500">Datum:</span> <span>20.10.2026</span></div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="block text-[10px] font-semibold text-stone-500 uppercase">Gast-Kommentar</label>
+                    <div class="bg-stone-950 border border-stone-800 rounded-lg p-2 text-stone-400 italic">...</div>
+                </div>
+                <div class="space-y-1">
+                    <label class="block text-[10px] font-semibold text-stone-500 uppercase">Service-Kommentar</label>
+                    <div class="bg-stone-950 border border-stone-800 rounded-lg p-2 text-stone-400 italic">...</div>
+                </div>
+
+                <!-- Action Buttons matching Gastronaut -->
+                <div class="pt-4 space-y-2">
+                    <button class="w-full py-2 bg-stone-800 hover:bg-stone-700 text-stone-200 font-semibold rounded-lg text-xs transition-colors">15 Minuten Später</button>
+                    <button class="w-full py-2 bg-stone-800 hover:bg-stone-700 text-stone-200 font-semibold rounded-lg text-xs transition-colors">Teilweise Platzieren</button>
+                    <button class="w-full py-2 bg-stone-800 hover:bg-stone-700 text-stone-200 font-semibold rounded-lg text-xs transition-colors">Bearbeiten <i class="fa-solid fa-rotate ml-1"></i></button>
+                    <button class="w-full py-2 bg-rose-950/50 border border-rose-900/50 hover:bg-rose-900/50 text-rose-400 font-bold rounded-lg text-xs transition-colors">Absagen <i class="fa-solid fa-triangle-exclamation ml-1"></i></button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- MODAL -->
@@ -349,6 +392,14 @@
                     ${resFooter}
                 `;
 
+                // Clicking table directly opens detail drawer and pulses table
+                node.onclick = () => {
+                    if (table.res) {
+                        openDrawer(table);
+                        highlightTable(table.id);
+                    }
+                };
+
                 node.addEventListener('dragstart', (e) => {
                     draggedTableId = table.id;
                     node.classList.add('dragging');
@@ -399,7 +450,6 @@
             }
         }
 
-        // DYNAMICALLY HIGHLIGHTS CURRENT TABLE OF THE GUEST
         function highlightTable(tableId) {
             const tableElement = document.getElementById(`table-node-${tableId}`);
             if (tableElement) {
@@ -408,6 +458,20 @@
                 void tableElement.offsetWidth;
                 tableElement.classList.add('highlight-pulse');
             }
+        }
+
+        // OPEN / CLOSE RIGHT SLIDE-OUT DRAWER
+        function openDrawer(table) {
+            document.getElementById('drawerGuestName').innerText = table.res.name;
+            document.getElementById('drawerTableId').innerText = `Tisch ${table.id === 'Big-Sys' ? 'T-Sys Big' : table.id}`;
+            document.getElementById('drawerTime').innerText = `${table.res.timeStart} - ${table.res.timeEnd || '21:00'}`;
+            document.getElementById('drawerPax').innerText = `${table.res.pax || 2} Personen`;
+            
+            document.getElementById('detailDrawer').classList.remove('hidden');
+        }
+
+        function closeDrawer() {
+            document.getElementById('detailDrawer').classList.add('hidden');
         }
 
         function renderSidebar() {
@@ -422,8 +486,10 @@
 
                 const card = document.createElement('div');
                 card.className = 'bg-stone-950 border border-stone-800 hover:border-amber-500/60 rounded-xl p-2.5 text-xs transition-all shadow-md group cursor-pointer';
-                // Dynamically binds click event to the table ID where the guest currently sits
-                card.onclick = () => highlightTable(t.id);
+                card.onclick = () => {
+                    highlightTable(t.id);
+                    openDrawer(t);
+                };
                 card.innerHTML = `
                     <div class="flex justify-between text-stone-400 text-[10px] font-mono mb-0.5">
                         <span>${t.res.timeStart} - ${t.res.timeEnd || '21:00'} • ${t.res.pax} Pax</span>
@@ -476,7 +542,7 @@
                     timeEnd: '21:00',
                     pax: pax,
                     badge: 'Neu',
-                    badgeBg: 'bg-amber-500 text-stone-950'
+                    badgeBg: 'bg-amber-500 text-slate-950'
                 };
             }
 
